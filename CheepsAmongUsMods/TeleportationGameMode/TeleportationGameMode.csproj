@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{67009315-A954-4650-A4CC-71AC34C1F4AB}</ProjectGuid>
+    <ProjectGuid>{5F464215-8789-4563-A89B-89CBBFDEF69D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CheepsAmongUsBaseMod</RootNamespace>
-    <AssemblyName>CheepsAmongUsBaseMod</AssemblyName>
+    <RootNamespace>TeleportationGameMode</RootNamespace>
+    <AssemblyName>TeleportationGameMode</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -43,12 +43,6 @@
     <Reference Include="BepInEx.IL2CPP">
       <HintPath>..\..\..\..\References\BepInEx.IL2CPP.dll</HintPath>
     </Reference>
-    <Reference Include="BepInEx.Preloader.Core">
-      <HintPath>..\..\..\..\References\BepInEx.Preloader.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2Cppmscorlib">
-      <HintPath>..\..\..\..\References\Il2Cppmscorlib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -57,15 +51,15 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnhollowerBaseLib, Version=0.4.11.0, Culture=neutral, PublicKeyToken=null" />
-    <Reference Include="UnityEngine.CoreModule, Version=3.7.1.6, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\References\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\..\References\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CheepsAmongUsBaseMod.cs" />
-    <Compile Include="ClientCommands\GameModeCommand.cs" />
-    <Compile Include="ClientCommands\HelpCommand.cs" />
-    <Compile Include="ClientCommands\ClientCommandManager.cs" />
-    <Compile Include="Patching.cs" />
+    <Compile Include="MainClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,9 +67,10 @@
       <Project>{7d8f8de7-d532-40bd-b39c-fd23e1f22fc9}</Project>
       <Name>CheepsAmongUsApi</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Events\" />
+    <ProjectReference Include="..\CheepsAmongUsBaseMod\CheepsAmongUsBaseMod.csproj">
+      <Project>{67009315-a954-4650-a4cc-71ac34c1f4ab}</Project>
+      <Name>CheepsAmongUsBaseMod</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

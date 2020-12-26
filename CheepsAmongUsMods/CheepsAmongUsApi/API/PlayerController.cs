@@ -157,7 +157,7 @@ namespace CheepsAmongUsApi.API
         /// </summary>
         /// <param name="message">The message to send</param>
         /// <returns></returns>
-        public bool SendChat(string message)
+        public bool RpcSendChat(string message)
         {
             return PlayerControl.RpcSendChat(message);
         }

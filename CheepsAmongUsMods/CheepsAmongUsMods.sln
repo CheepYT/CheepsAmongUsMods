@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheepsAmongUsApi", "CheepsA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheepsAmongUsBaseMod", "CheepsAmongUsBaseMod\CheepsAmongUsBaseMod.csproj", "{67009315-A954-4650-A4CC-71AC34C1F4AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleportationGameMode", "TeleportationGameMode\TeleportationGameMode.csproj", "{5F464215-8789-4563-A89B-89CBBFDEF69D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{67009315-A954-4650-A4CC-71AC34C1F4AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67009315-A954-4650-A4CC-71AC34C1F4AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67009315-A954-4650-A4CC-71AC34C1F4AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F464215-8789-4563-A89B-89CBBFDEF69D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F464215-8789-4563-A89B-89CBBFDEF69D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F464215-8789-4563-A89B-89CBBFDEF69D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F464215-8789-4563-A89B-89CBBFDEF69D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
