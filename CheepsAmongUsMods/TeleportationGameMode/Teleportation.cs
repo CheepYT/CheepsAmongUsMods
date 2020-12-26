@@ -11,11 +11,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using CheepsAmongUsBaseMod;
-
-using GameStateEnum = KHNHJFFECBP.KGEKNMMAKKN;
 using UnityEngine;
 using CheepsAmongUsApi.API.Enumerations;
 using CheepsAmongUsBaseMod.ClientCommands;
+
+using GameStateEnum = KHNHJFFECBP.KGEKNMMAKKN;
 
 namespace TeleportationGameMode
 {
@@ -23,7 +23,7 @@ namespace TeleportationGameMode
     [BepInDependency(CheepsAmongUsApi.CheepsAmongUs.PluginGuid)]    // Add the API as a dependency
     [BepInDependency(CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.PluginGuid)] // Add the base mod as dependency
     [BepInProcess("Among Us.exe")]
-    public class MainClass : BasePlugin
+    public class Teleportation : BasePlugin
     {
         public const string PluginGuid = "com.cheep_yt.amongusteleportation";
         public const string PluginName = "TeleportationGameMode";

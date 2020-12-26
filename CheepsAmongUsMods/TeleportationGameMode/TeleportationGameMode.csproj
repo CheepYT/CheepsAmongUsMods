@@ -59,7 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainClass.cs" />
+    <Compile Include="Teleportation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
