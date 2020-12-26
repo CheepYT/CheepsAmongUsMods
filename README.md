@@ -1,2 +1,8 @@
+
 # CheepsAmongUsMods
-This repo will contain modifications for the game Among Us using BepInEx
+This repository will contain modifications for the game Among Us modded using BepInEx.
+These mods can only be used on the newest steam version of Among Us. 
+
+# Downloads
+You can download modification releases here
+ 1. Teleportation: https://cheep-yt.com/file.php?id=7631
