@@ -1,4 +1,4 @@
-namespace CheepsAmongUsApi.API.Customization
+namespace CheepsAmongUsApi.API.Enumerations
 {
     public enum PetType
     {

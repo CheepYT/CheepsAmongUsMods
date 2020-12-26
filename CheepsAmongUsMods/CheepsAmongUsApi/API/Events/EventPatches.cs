@@ -15,6 +15,7 @@ using PlayerControlClass = FFGALNAPKCD;
 using MainMenuClass = BOCOFLHKCOJ;
 using PingClass = ELDIDNABIPI;
 using TextRendererClass = AELDHKGBIFD;
+using GameManagerClass = KOHGPBDBBJI;
 #endregion
 
 namespace CheepsAmongUsApi.API.Events
@@ -42,6 +43,24 @@ namespace CheepsAmongUsApi.API.Events
                 catch (Exception e)
                 {
                     CheepsAmongUs._logger.LogError("Error invoking GameStartedEvent: " + e);
+                }
+            }
+        }
+        #endregion
+
+        #region -------------------- Patch Game Started Event --------------------
+        [HarmonyPatch(typeof(GameManagerClass), nameof(GameManagerClass.EndGame))]
+        public static class Patch_GameClass_EndGame
+        {
+            public static void Postfix()
+            {
+                try
+                {
+                    GameEndedEvent.CallEvent();
+                }
+                catch (Exception e)
+                {
+                    CheepsAmongUs._logger.LogError("Error invoking GameEndedEvent: " + e);
                 }
             }
         }

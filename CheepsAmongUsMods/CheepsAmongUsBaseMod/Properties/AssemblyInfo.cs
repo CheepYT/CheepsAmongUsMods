@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Allgemeine Informationen über eine Assembly werden über die folgenden
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die einer Assembly zugeordnet sind.
-[assembly: AssemblyTitle("CheepsAmongUsApi")]
+[assembly: AssemblyTitle("CheepsAmongUsBaseMod")]
 [assembly: AssemblyDescription("https://cheep-yt.com")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CheepsAmongUsApi")]
+[assembly: AssemblyProduct("CheepsAmongUsBaseMod")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
-[assembly: Guid("7d8f8de7-d532-40bd-b39c-fd23e1f22fc9")]
+[assembly: Guid("67009315-a954-4650-a4cc-71ac34c1f4ab")]
 
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 //

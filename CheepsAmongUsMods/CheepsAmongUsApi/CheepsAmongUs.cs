@@ -18,7 +18,7 @@ namespace CheepsAmongUsApi
     {
         public const string PluginGuid = "com.cheep_yt.amongusapi";
         public const string PluginName = "CheepsAmongUsApi";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.3";
 
         public static ManualLogSource _logger = null;
 

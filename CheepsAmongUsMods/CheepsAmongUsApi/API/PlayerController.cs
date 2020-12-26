@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using CheepsAmongUsApi.API.Customization;
+using CheepsAmongUsApi.API.Enumerations;
 
 #region -------------------- Among Us Types --------------------
 using PlayerControl = FFGALNAPKCD;   // TypeDefIndex: 7533

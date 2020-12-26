@@ -95,13 +95,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\Customization\ColorType.cs" />
-    <Compile Include="API\Customization\HatType.cs" />
-    <Compile Include="API\Customization\PetType.cs" />
-    <Compile Include="API\Customization\SkinType.cs" />
-    <Compile Include="API\DeathReason.cs" />
+    <Compile Include="API\Enumerations\ColorType.cs" />
+    <Compile Include="API\Enumerations\HatType.cs" />
+    <Compile Include="API\Enumerations\KillDistance.cs" />
+    <Compile Include="API\Enumerations\MapType.cs" />
+    <Compile Include="API\Enumerations\PetType.cs" />
+    <Compile Include="API\Enumerations\SkinType.cs" />
+    <Compile Include="API\Enumerations\DeathReason.cs" />
     <Compile Include="API\Events\EventPatches.cs" />
     <Compile Include="API\Events\ExitLobbyEvent.cs" />
+    <Compile Include="API\Events\GameEndedEvent.cs" />
     <Compile Include="API\Events\GameStartedEvent.cs" />
     <Compile Include="API\Events\HudUpdateEvent.cs" />
     <Compile Include="API\Events\JoinedLobbyEvent.cs" />
@@ -112,7 +115,6 @@
     <Compile Include="API\PlayerController.cs" />
     <Compile Include="API\PlayerData.cs" />
     <Compile Include="API\PlayerHudManager.cs" />
-    <Compile Include="API\PlayerStyle.cs" />
     <Compile Include="API\RegionApi\Region.cs" />
     <Compile Include="API\RegionApi\Server.cs" />
     <Compile Include="API\TextRenderer.cs" />

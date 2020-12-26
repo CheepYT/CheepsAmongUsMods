@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CheepsAmongUsApi.API.Enumerations;
 
 using GameObject = FFGALNAPKCD;
 using GameOptionsObject = KMOGFLPJLLK;
 using TaskBarUpdateEnum = GLOLCBDMNHG;
+using LanguageEnum = IJAFEDPACBD;
 
 namespace CheepsAmongUsApi.API
 {
@@ -20,6 +22,136 @@ namespace CheepsAmongUsApi.API
             }
         }
 
+        public static MapType Map
+        {
+            get
+            {
+                return (MapType)GameOptionsObject.PNGONPDAFPF;
+            }
+
+            set
+            {
+                GameOptionsObject.PNGONPDAFPF = (byte)value;
+            }
+        }
+
+        public static int ShortTasks // 0x2C
+        {
+            get
+            {
+                return GameOptionsObject.DNIEHDEAMPH;
+            }
+
+            set
+            {
+                GameOptionsObject.DNIEHDEAMPH = value;
+            }
+        }
+
+        public static byte LongTasks // Fields
+        {
+            get
+            {
+                return GameOptionsObject.GBJBJFEGKBN;
+            }
+
+            set
+            {
+                GameOptionsObject.GBJBJFEGKBN = value;
+            }
+        }
+
+        public static int CommonTasks // 0x24
+        {
+            get
+            {
+                return GameOptionsObject.BNJBANDKLOJ;
+            }
+
+            set
+            {
+                GameOptionsObject.BNJBANDKLOJ = value;
+            }
+        }
+
+        public static KillDistance KillDistance // 0x40
+        {
+            get
+            {
+                return (KillDistance)GameOptionsObject.DLIBONBKPKL;
+            }
+
+            set
+            {
+                GameOptionsObject.DLIBONBKPKL = (int)value;
+            }
+        }
+
+        public static bool ConfirmEjects // 0x4C
+        {
+            get
+            {
+                return GameOptionsObject.HGOMOAAPHNJ;
+            }
+
+            set
+            {
+                GameOptionsObject.HGOMOAAPHNJ = value;
+            }
+        }
+
+        public static int EmergencyMeetings // 0x30
+        {
+            get
+            {
+                return GameOptionsObject.OEGKGKCNMKD;
+            }
+
+            set
+            {
+                GameOptionsObject.OEGKGKCNMKD = value;
+            }
+        }
+
+        public static int ImpostorCount // 0x38
+        {
+            get
+            {
+                return GameOptionsObject.KDEGPDECMHF;
+            }
+
+            set
+            {
+                GameOptionsObject.KDEGPDECMHF = value;
+            }
+        }
+
+        public static int MaxPlayers // 0x8
+        {
+            get
+            {
+                return GameOptionsObject.NCJGOCGPJDO;
+            }
+
+            set
+            {
+                GameOptionsObject.NCJGOCGPJDO = value;
+            }
+        }
+
+        public static LanguageEnum Language // 0xC
+        {
+            get
+            {
+                return GameOptionsObject.IPPFPEALJIA;
+            }
+
+            set
+            {
+                GameOptionsObject.IPPFPEALJIA = value;
+            }
+        }
+
         public static bool IsDefaults // 0x4E
         {
             get
@@ -30,19 +162,6 @@ namespace CheepsAmongUsApi.API
             set
             {
                 GameOptionsObject.AGGKAFILPGD = value;
-            }
-        }
-
-        public static bool ConfirmEjects // 0x4D
-        {
-            get
-            {
-                return GameOptionsObject.EPMDHIPBJPF;
-            }
-
-            set
-            {
-                GameOptionsObject.EPMDHIPBJPF = value;
             }
         }
 
