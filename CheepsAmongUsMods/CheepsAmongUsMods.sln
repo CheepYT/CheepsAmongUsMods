@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheepsAmongUsApi", "CheepsA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheepsAmongUsBaseMod", "CheepsAmongUsBaseMod\CheepsAmongUsBaseMod.csproj", "{67009315-A954-4650-A4CC-71AC34C1F4AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeleportationGameMode", "TeleportationGameMode\TeleportationGameMode.csproj", "{5F464215-8789-4563-A89B-89CBBFDEF69D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameModeTeleportation", "TeleportationGameMode\GameModeTeleportation.csproj", "{5F464215-8789-4563-A89B-89CBBFDEF69D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnonGameMode", "AnonGameMode\AnonGameMode.csproj", "{05F45B53-C31B-43E5-83E1-4AD681EDF44F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameModeAnon", "AnonGameMode\GameModeAnon.csproj", "{05F45B53-C31B-43E5-83E1-4AD681EDF44F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
