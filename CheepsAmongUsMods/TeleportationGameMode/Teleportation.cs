@@ -150,7 +150,7 @@ namespace TeleportationGameMode
                     return;
                 }
 
-                string toDisplay = "[7a31f7ff]Teleportation[]\n";
+                string toDisplay = "----- [7a31f7ff]Teleportation[] -----\n";
 
                 toDisplay += $"Teleportation in [11c5edff]{ TeleportationDelay - (Functions.GetUnixTime() - LastTeleported) }s[]";
 
