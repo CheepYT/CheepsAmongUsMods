@@ -27,7 +27,7 @@ namespace TeleportationGameMode
     {
         public const string PluginGuid = "com.cheep_yt.amongusteleportation";
         public const string PluginName = "TeleportationGameMode";
-        public const string PluginVersion = "1.0.5";
+        public const string PluginVersion = "1.1.0";
 
         public const string GameModeName = "Teleportation";
 
@@ -39,6 +39,8 @@ namespace TeleportationGameMode
         public static ManualLogSource _logger = null;
 
         Dictionary<MapType, Vector2[]> MapLocations = new Dictionary<MapType, Vector2[]>();
+
+        private static System.Random RandomGen = new System.Random();
 
         public static bool IsThisGameModeActive
         {
@@ -122,10 +124,24 @@ namespace TeleportationGameMode
             Patching.ServerCommandExecuted += Patching_ServerCommandExecuted;
             #endregion
 
+            #region ---------- Transmit Teleportation Delay on Start ----------
+            GameStartedEvent.Listener += () =>
+            {
+                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.ActiveGameMode != GameModeName || !CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                    return;
+
+                Task.Run(async () =>
+                {
+                    await Task.Delay(2500);
+                    CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("UpdateTeleportationDelay", $"{TeleportationDelay}");
+                });
+            };
+            #endregion
+
             #region ---------- Teleportation Mode ----------
             HudUpdateEvent.Listener += () =>
             {
-                if(CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.ActiveGameMode == GameModeName)
+                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.ActiveGameMode == GameModeName)
                     CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.GameSettingsAddition = $"\nTeleportation Delay: {Functions.ColorPurple}{TeleportationDelay}s[]";
 
                 if (!IsThisGameModeActive || LastTeleported == 0)
@@ -173,16 +189,16 @@ namespace TeleportationGameMode
             if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.ActiveGameMode != GameModeName)
                 return;
 
-            if(e.Command == "UpdateTeleportationDelay")
+            if (e.Command == "UpdateTeleportationDelay")
             {
                 TeleportationDelay = int.Parse(e.Value);
             }
 
-            if(e.Command == "TeleportNow")
+            if (e.Command == "TeleportNow")
             {
                 Vector2[] positions = MapLocations[GameOptions.Map];
 
-                Vector2 toTp = positions[new System.Random().Next(0, positions.Length)];
+                Vector2 toTp = positions[RandomGen.Next(0, positions.Length)];
 
                 var ctrl = PlayerController.GetLocalPlayer();
 
@@ -194,27 +210,34 @@ namespace TeleportationGameMode
 
         private void ClientCommandManager_CommandExecuted(object sender, CommandEventArgs e)
         {
-            if(e.Command.ToLower().Equals("/tpdelay"))
+            if (e.Command.ToLower().Equals("/tpdelay"))
             {
                 e.Handled = true;
 
-                try
-                {
-                    int delay = int.Parse(e.Arguments[1]);
+                if(CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                    try
+                    {
+                        int delay = int.Parse(e.Arguments[1]);
 
-                    TeleportationDelay = delay;
+                        TeleportationDelay = delay;
 
-                    CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("UpdateTeleportationDelay", $"{TeleportationDelay}");
+                        CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("UpdateTeleportationDelay", $"{TeleportationDelay}");
 
+                        PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                            $"{Functions.ColorLime}The teleportation interval has been updated to {Functions.ColorPurple}{TeleportationDelay}s"
+                            ); //Send syntax to player
+                    }
+                    catch
+                    {
+                        PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                            $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}/tpdelay <Int>"
+                            ); //Send syntax to player
+                    }
+                else
                     PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
-                        $"{Functions.ColorLime}The teleportation interval has been updated to {Functions.ColorPurple}{TeleportationDelay}s"
+                        $"{Functions.ColorRed}Sorry, but only {Functions.ColorCyan}{CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.GetDecidingPlayer().PlayerData.PlayerName} " +
+                        $"{Functions.ColorRed}can change the teleportation interval."
                         ); //Send syntax to player
-                } catch
-                {
-                    PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
-                        $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}/tpdelay <Int>"
-                        ); //Send syntax to player
-                }
             }
         }
     }
