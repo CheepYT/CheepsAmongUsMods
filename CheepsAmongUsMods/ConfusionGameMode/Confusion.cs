@@ -23,7 +23,7 @@ namespace ConfusionGameMode
     {
         public const string PluginGuid = "com.cheep_yt.amongusconfusion";
         public const string PluginName = "ConfusionGameMode";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.5";
 
         public const string GameModeName = "Confusion";
 
@@ -79,6 +79,9 @@ namespace ConfusionGameMode
                             #region ---------- Select random color and name ----------
                             var color = AvailableColors[random.Next(AvailableColors.Count)];
                             var name = AvailableNames[random.Next(AvailableNames.Count)];
+
+                            AvailableColors.Remove(color);
+                            AvailableNames.Remove(name);
                             #endregion
 
                             #region ---------- As long as the name matches the color, change it ----------

@@ -23,7 +23,7 @@ namespace AnonGameMode
     {
         public const string PluginGuid = "com.cheep_yt.amongusanon";
         public const string PluginName = "AnonGameMode";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.5";
 
         public const string GameModeName = "Anon";
 

@@ -82,6 +82,5 @@ namespace CheepsAmongUsApi.API
         {
             PlayerHudManager.HudManager.ShowPopUp(text);
         }
-
     }
 }

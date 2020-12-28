@@ -27,7 +27,7 @@ namespace TeleportationGameMode
     {
         public const string PluginGuid = "com.cheep_yt.amongusteleportation";
         public const string PluginName = "TeleportationGameMode";
-        public const string PluginVersion = "1.1.0";
+        public const string PluginVersion = "1.1.5";
 
         public const string GameModeName = "Teleportation";
 
@@ -154,14 +154,10 @@ namespace TeleportationGameMode
 
                 toDisplay += $"Teleportation in [11c5edff]{ TeleportationDelay - (Functions.GetUnixTime() - LastTeleported) }s[]";
 
-                if (TeleportationDelay - (Functions.GetUnixTime() - LastTeleported) <= 0 && LastTeleported != 0 &&
-                !PlayerController.GetLocalPlayer().PlayerData.IsDead)
+                if (TeleportationDelay - (Functions.GetUnixTime() - LastTeleported) <= 0 && LastTeleported != 0)
                 {
                     LastTeleported = Functions.GetUnixTime();
-
-                    if (PlayerController.GetLocalPlayer().PlayerControl.inVent)
-                        return;
-
+                    
                     if (MapLocations.ContainsKey(GameOptions.Map) && CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
                     {
                         CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("TeleportNow", $"{true}");
@@ -196,6 +192,11 @@ namespace TeleportationGameMode
 
             if (e.Command == "TeleportNow")
             {
+                LastTeleported = Functions.GetUnixTime();
+
+                if (PlayerController.GetLocalPlayer().PlayerControl.inVent || PlayerController.GetLocalPlayer().PlayerData.IsDead) // Dont teleport if player is dead or in a vent
+                    return;
+
                 Vector2[] positions = MapLocations[GameOptions.Map];
 
                 Vector2 toTp = positions[RandomGen.Next(0, positions.Length)];
@@ -203,8 +204,6 @@ namespace TeleportationGameMode
                 var ctrl = PlayerController.GetLocalPlayer();
 
                 ctrl.RpcSnapTo(toTp);
-
-                LastTeleported = Functions.GetUnixTime();
             }
         }
 
