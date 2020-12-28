@@ -13,9 +13,6 @@ using System.Threading.Tasks;
 
 using GameStateEnum = KHNHJFFECBP.KGEKNMMAKKN;
 
-using GameStartManager = ANKMIOIMNFE;
-using System.Reflection;
-
 namespace AnonGameMode
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
@@ -72,29 +69,6 @@ namespace AnonGameMode
                     player.RpcSetName("");
                 });
                 #endregion
-            };
-
-            HudUpdateEvent.Listener += () =>
-            {
-                if (!IsThisGameModeActive)
-                    return;
-
-                string toDisplay = "[7a31f7ff]Anonymous[]\n";
-
-                toDisplay += $"Everyone is anonymous.";
-
-                string curText = PlayerHudManager.TaskText;
-
-                if (!curText.Contains(Delimiter))
-                {
-                    PlayerHudManager.TaskText = toDisplay + Delimiter + PlayerHudManager.TaskText;
-                }
-                else if (!curText.Contains(toDisplay))
-                {
-                    string toReplace = curText.Split(new string[] { Delimiter }, StringSplitOptions.None)[0];
-
-                    PlayerHudManager.TaskText = curText.Replace(toReplace, toDisplay);
-                }
             };
         }
     }

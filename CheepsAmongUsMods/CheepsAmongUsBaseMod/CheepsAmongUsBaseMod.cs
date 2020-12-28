@@ -62,6 +62,14 @@ namespace CheepsAmongUsBaseMod
                 $">> {Functions.ColorGreen}Cheep-YT.com[] <<";
             PlayerHudManager.IsPingTextCentered = true;
 
+            #region ---------- Wait 1 second, to append gamemode count to version shower----------
+            Task.Run(async () =>
+            {
+                await Task.Delay(1000);
+                PlayerHudManager.AppendedVersionText += $"\n[]Installed GameModes: {Functions.ColorOrange}{InstalledGameModes.Count - 1}";
+            });
+            #endregion
+
             InstalledGameModes.Add(ActiveGameMode);
             #endregion
 
