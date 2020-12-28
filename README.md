@@ -17,4 +17,4 @@ You can download modification releases here
  3. Confusion: https://cheep-yt.com/file.php?id=6471
  <img src="https://cheep-yt.com/files/6471/images/hd_00.png" alt="drawing" width="500"/>
 
-4. Color Swap: TBA
+4. Color Swap: https://cheep-yt.com/file.php?id=8641
