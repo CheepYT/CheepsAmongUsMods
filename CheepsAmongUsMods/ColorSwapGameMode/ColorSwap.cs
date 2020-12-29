@@ -92,7 +92,7 @@ namespace ColorSwapGameMode
                 });
             };
 
-            #region ---------- Teleportation Mode ----------
+            #region ---------- Color Swap Mode ----------
             HudUpdateEvent.Listener += () =>
             {
                 if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.ActiveGameMode == GameModeName)
