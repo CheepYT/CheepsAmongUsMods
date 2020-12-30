@@ -318,6 +318,8 @@ namespace BattleRoyale
 
                 if (!killer.AmPlayerController())
                     killer.PlayerControl.MurderPlayer(target.PlayerControl);
+
+                target.PlayerData.IsDead = true;
             }
         }
     }
