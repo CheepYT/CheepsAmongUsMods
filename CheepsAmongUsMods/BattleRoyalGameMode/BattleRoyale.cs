@@ -17,13 +17,13 @@ using GameStateEnum = KHNHJFFECBP.KGEKNMMAKKN;
 using GameEndReasonEnum = AIMMJPEOPEC;
 using ShipStatusClass = HLBNNHFCNAJ;
 
-namespace BattleRoyal
+namespace BattleRoyale
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     [BepInDependency(CheepsAmongUsApi.CheepsAmongUs.PluginGuid)]    // Add the API as a dependency
     [BepInDependency(CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.PluginGuid)] // Add the base mod as dependency
     [BepInProcess("Among Us.exe")]
-    public class BattleRoyal : BasePlugin
+    public class BattleRoyale : BasePlugin
     {
         public const string PluginGuid = "com.cheep_yt.amongusbattleroyale";
         public const string PluginName = "BattleRoyaleGameMode";

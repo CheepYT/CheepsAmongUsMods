@@ -7,8 +7,8 @@
     <ProjectGuid>{FAA3FAC1-0534-405F-A37D-9989C2977170}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BattleRoyal</RootNamespace>
-    <AssemblyName>BattleRoyal</AssemblyName>
+    <RootNamespace>BattleRoyale</RootNamespace>
+    <AssemblyName>BattleRoyale</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -66,7 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BattleRoyal.cs" />
+    <Compile Include="BattleRoyale.cs" />
     <Compile Include="Patching.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

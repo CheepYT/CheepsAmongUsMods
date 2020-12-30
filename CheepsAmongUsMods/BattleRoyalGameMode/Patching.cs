@@ -16,7 +16,7 @@ using GameStartManager = ANKMIOIMNFE;
 using ShipStatusClass = HLBNNHFCNAJ;
 using Hazel;
 
-namespace BattleRoyal
+namespace BattleRoyale
 {
     public class Patching
     {
@@ -26,7 +26,7 @@ namespace BattleRoyal
         {
             public static void Prefix(PlayerControl __instance)
             {
-                if (!BattleRoyal.IsThisGameModeSelected)
+                if (!BattleRoyale.IsThisGameModeSelected)
                     return;
 
                 PlayerController instance = new PlayerController(__instance);
@@ -35,7 +35,7 @@ namespace BattleRoyal
 
             public static void Postfix(PlayerControl __instance)
             {
-                if (!BattleRoyal.IsThisGameModeSelected)
+                if (!BattleRoyale.IsThisGameModeSelected)
                     return;
 
                 PlayerController instance = new PlayerController(__instance);
@@ -50,7 +50,7 @@ namespace BattleRoyal
         {
             public static void Prefix(ref Il2CppReferenceArray<GameData_PlayerInfo> JPGEIBIBJPJ)
             {
-                if (!BattleRoyal.IsThisGameModeSelected)
+                if (!BattleRoyale.IsThisGameModeSelected)
                     return;
 
                 JPGEIBIBJPJ = new Il2CppReferenceArray<GameData_PlayerInfo>(
@@ -65,7 +65,7 @@ namespace BattleRoyal
         {
             public static void Prefix(IntroClass __instance)
             {
-                if (!BattleRoyal.IsThisGameModeSelected)
+                if (!BattleRoyale.IsThisGameModeSelected)
                     return;
 
                 PlayerController local = PlayerController.GetLocalPlayer();
@@ -88,7 +88,7 @@ namespace BattleRoyal
         {
             public static void Prefix(GameStartManager __instance)
             {
-                if (!BattleRoyal.IsThisGameModeSelected)
+                if (!BattleRoyale.IsThisGameModeSelected)
                     return;
 
                 __instance.MinPlayers = 2;
@@ -106,13 +106,13 @@ namespace BattleRoyal
             {
                 var local = PlayerController.GetLocalPlayer();
 
-                if (!BattleRoyal.IsThisGameModeActive || Target == null || (Functions.GetUnixTime() - BattleRoyal.LastKilled < GameOptions.KillCooldown && BattleRoyal.LastKilled != 0)
+                if (!BattleRoyale.IsThisGameModeActive || Target == null || (Functions.GetUnixTime() - BattleRoyale.LastKilled < GameOptions.KillCooldown && BattleRoyale.LastKilled != 0)
                     || local.PlayerData.IsDead)
                     return true;
 
                 var target = Target;
 
-                BattleRoyal.LastKilled = Functions.GetUnixTime();
+                BattleRoyale.LastKilled = Functions.GetUnixTime();
 
                 local.PlayerControl.MurderPlayer(target.PlayerControl);
 
@@ -132,24 +132,10 @@ namespace BattleRoyal
             public static bool CanEndGame = false;
             public static bool Prefix()
             {
-                if (!BattleRoyal.IsThisGameModeActive)
+                if (!BattleRoyale.IsThisGameModeActive)
                     return true;
 
                 return CanEndGame;
-            }
-        }
-        #endregion
-
-        #region -------------------- Cancel Call Meeting --------------------
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcStartMeeting))]
-        public static class PatchCallMeetingEnterVentSabotage
-        {
-            public static bool Prefix()
-            {
-                if (!BattleRoyal.IsThisGameModeActive)
-                    return true;
-
-                return false;
             }
         }
         #endregion
