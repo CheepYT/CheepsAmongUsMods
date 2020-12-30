@@ -24,3 +24,7 @@ You can download modification releases here
 
 5. Quantum Tunneling: https://cheep-yt.com/file.php?id=1549
 <img src="https://cheep-yt.com/files/1549/images/hd_02.png" alt="drawing" width="500"/>
+
+
+5. Battle Royal: https://cheep-yt.com/file.php?id=2679
+<img src="https://cheep-yt.com/files/2679/images/hd_01.png" alt="drawing" width="500"/>
