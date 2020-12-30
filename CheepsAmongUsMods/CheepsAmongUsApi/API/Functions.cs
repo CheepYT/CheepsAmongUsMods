@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hazel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,7 @@ using UnityEngine;
 
 using GameObject = FFGALNAPKCD;
 using GameOptionsObject = KMOGFLPJLLK;
+using RpcClass = FMLLKEACGIO;
 
 namespace CheepsAmongUsApi.API
 {
@@ -29,6 +31,16 @@ namespace CheepsAmongUsApi.API
         public static int GetUnixTime()
         {
             return (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+        }
+
+        public static MessageWriter StartRpcImmediately(uint netId, byte rpcCall, SendOption option, int unknown = -1)
+        {
+            return RpcClass.Instance.StartRpcImmediately(netId, rpcCall, option, unknown);
+        }
+
+        public static void FinishRpcImmediately(MessageWriter writer)
+        {
+            RpcClass.Instance.FinishRpcImmediately(writer);
         }
 
         public static GameOptionsObject GameOptions

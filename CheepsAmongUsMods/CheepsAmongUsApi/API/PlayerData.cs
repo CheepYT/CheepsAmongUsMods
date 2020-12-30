@@ -22,7 +22,7 @@ namespace CheepsAmongUsApi.API
         /// <summary>
         /// Player Data Object
         /// </summary>
-        public PlayerDataObj PlayerDataObject { get { return PlayerController.PlayerControl.JLGGIOLCDFC; /* TypeDefIndex: 7533 */ } }
+        public PlayerDataObj PlayerDataObject { get { return PlayerController.PlayerControl.NDGFFHMFGIG; /* 0x34 */ } }
 
         /// <summary>
         /// Player Prefab object

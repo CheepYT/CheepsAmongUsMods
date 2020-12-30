@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7D8F8DE7-D532-40BD-B39C-FD23E1F22FC9}</ProjectGuid>
+    <ProjectGuid>{FAA3FAC1-0534-405F-A37D-9989C2977170}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CheepsAmongUsApi</RootNamespace>
-    <AssemblyName>CheepsAmongUsApi</AssemblyName>
+    <RootNamespace>BattleRoyal</RootNamespace>
+    <AssemblyName>BattleRoyal</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -43,24 +43,12 @@
     <Reference Include="BepInEx.IL2CPP">
       <HintPath>..\..\..\..\References\BepInEx.IL2CPP.dll</HintPath>
     </Reference>
-    <Reference Include="BepInEx.Preloader.Core">
-      <HintPath>..\..\..\..\References\BepInEx.Preloader.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Hazel, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\References\Hazel.dll</HintPath>
     </Reference>
     <Reference Include="Il2Cppmscorlib">
       <HintPath>..\..\..\..\References\Il2Cppmscorlib.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2CppSystem">
-      <HintPath>..\..\..\..\References\Il2CppSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2CppSystem.Core">
-      <HintPath>..\..\..\..\References\Il2CppSystem.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Il2CppSystem.Data">
-      <HintPath>..\..\..\..\References\Il2CppSystem.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -73,57 +61,24 @@
     <Reference Include="UnhollowerBaseLib">
       <HintPath>..\..\..\..\References\UnhollowerBaseLib.dll</HintPath>
     </Reference>
-    <Reference Include="UnhollowerRuntimeLib">
-      <HintPath>..\..\..\..\References\UnhollowerRuntimeLib.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\References\UnityEngine.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\..\References\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>..\..\..\..\References\UnityEngine.InputLegacyModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.InputModule">
-      <HintPath>..\..\..\..\References\UnityEngine.InputModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.Physics2DModule">
-      <HintPath>..\..\..\..\References\UnityEngine.Physics2DModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\References\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UIModule">
-      <HintPath>..\..\..\..\References\UnityEngine.UIModule.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\Enumerations\ColorType.cs" />
-    <Compile Include="API\Enumerations\HatType.cs" />
-    <Compile Include="API\Enumerations\KillDistance.cs" />
-    <Compile Include="API\Enumerations\MapType.cs" />
-    <Compile Include="API\Enumerations\PetType.cs" />
-    <Compile Include="API\Enumerations\RpcCalls.cs" />
-    <Compile Include="API\Enumerations\SkinType.cs" />
-    <Compile Include="API\Enumerations\DeathReason.cs" />
-    <Compile Include="API\Events\EventPatches.cs" />
-    <Compile Include="API\Events\ExitLobbyEvent.cs" />
-    <Compile Include="API\Events\GameEndedEvent.cs" />
-    <Compile Include="API\Events\GameStartedEvent.cs" />
-    <Compile Include="API\Events\HudUpdateEvent.cs" />
-    <Compile Include="API\Events\JoinedLobbyEvent.cs" />
-    <Compile Include="API\Events\PlayerUpdateEvent.cs" />
-    <Compile Include="API\Functions.cs" />
-    <Compile Include="API\GameOptions.cs" />
-    <Compile Include="API\PlayerController.cs" />
-    <Compile Include="API\PlayerData.cs" />
-    <Compile Include="API\PlayerHudManager.cs" />
-    <Compile Include="API\RegionApi\Region.cs" />
-    <Compile Include="API\RegionApi\Server.cs" />
-    <Compile Include="API\TextRenderer.cs" />
-    <Compile Include="CheepsAmongUs.cs" />
+    <Compile Include="BattleRoyal.cs" />
+    <Compile Include="Patching.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CheepsAmongUsApi\CheepsAmongUsApi.csproj">
+      <Project>{7d8f8de7-d532-40bd-b39c-fd23e1f22fc9}</Project>
+      <Name>CheepsAmongUsApi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CheepsAmongUsBaseMod\CheepsAmongUsBaseMod.csproj">
+      <Project>{67009315-a954-4650-a4cc-71ac34c1f4ab}</Project>
+      <Name>CheepsAmongUsBaseMod</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

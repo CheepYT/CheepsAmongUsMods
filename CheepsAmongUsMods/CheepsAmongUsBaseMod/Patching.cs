@@ -43,7 +43,7 @@ namespace CheepsAmongUsBaseMod
                                         PlayerHudManager.HudManager.Chat.ForceClosed();
 
                                         Functions.ShowPopUp(
-                                            $"[42ecf5ff]---------- [7a31f7ff]{ CheepsAmongUsBaseMod.AddSpaces(val) } [42ecf5ff]----------[]\n" +
+                                            $"[42ecf5ff]----- [7a31f7ff]{ CheepsAmongUsBaseMod.AddSpaces(val) } [42ecf5ff]-----[]\n" +
                                             $"You currently don't have this GameMode installed! Please install it."
                                             );
                                     }

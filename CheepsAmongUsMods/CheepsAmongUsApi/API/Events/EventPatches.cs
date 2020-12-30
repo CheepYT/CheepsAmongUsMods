@@ -48,7 +48,7 @@ namespace CheepsAmongUsApi.API.Events
         }
         #endregion
 
-        #region -------------------- Patch Game Started Event --------------------
+        #region -------------------- Patch Game Ended Event --------------------
         [HarmonyPatch(typeof(GameManagerClass), nameof(GameManagerClass.EndGame))]
         public static class Patch_GameClass_EndGame
         {
