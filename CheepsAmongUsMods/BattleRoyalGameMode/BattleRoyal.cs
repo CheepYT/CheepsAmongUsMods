@@ -25,11 +25,11 @@ namespace BattleRoyal
     [BepInProcess("Among Us.exe")]
     public class BattleRoyal : BasePlugin
     {
-        public const string PluginGuid = "com.cheep_yt.amongusbattleroyal";
-        public const string PluginName = "BattleRoyalGameMode";
+        public const string PluginGuid = "com.cheep_yt.amongusbattleroyale";
+        public const string PluginName = "BattleRoyaleGameMode";
         public const string PluginVersion = "1.4.0";
 
-        public const string GameModeName = "BattleRoyal";
+        public const string GameModeName = "BattleRoyale";
 
         public const string Delimiter = "\n----------";
 
@@ -162,7 +162,7 @@ namespace BattleRoyal
 
                     PlayerController.GetLocalPlayer().ClearTasks();
 
-                    PlayerHudManager.SetVictoryText($"{Functions.ColorCyan}Victory Royal");
+                    PlayerHudManager.SetVictoryText($"{Functions.ColorCyan}Victory Royale");
 
                     #region ---------- Random Start Location ----------
                     if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer() && MapLocations.ContainsKey(GameOptions.Map) && RandomStartLocation)
@@ -196,7 +196,7 @@ namespace BattleRoyal
                         return;
 
                     #region ----- Display new task text -----
-                    string ToDisplay = "----- [ff7b00ff]Battle Royal[] -----\n" +
+                    string ToDisplay = "----- [ff7b00ff]Battle Royale[] -----\n" +
                                         "Be the last man standing!\n" +
                                         "\n" +
                                         $"Players left: { PlayerController.GetAllPlayers().Where(x => !x.PlayerData.IsDead).Count() }/{ MaxPlayerCount }";

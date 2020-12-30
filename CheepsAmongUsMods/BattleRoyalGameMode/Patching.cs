@@ -29,7 +29,8 @@ namespace BattleRoyal
                 if (!BattleRoyal.IsThisGameModeSelected)
                     return;
 
-                new PlayerController(__instance).PlayerData.IsImpostor = true;
+                PlayerController instance = new PlayerController(__instance);
+                instance.PlayerData.IsImpostor = true;
             }
 
             public static void Postfix(PlayerControl __instance)
@@ -37,7 +38,8 @@ namespace BattleRoyal
                 if (!BattleRoyal.IsThisGameModeSelected)
                     return;
 
-                new PlayerController(__instance).PlayerData.IsImpostor = false;
+                PlayerController instance = new PlayerController(__instance);
+                instance.PlayerData.IsImpostor = false;
             }
         }
         #endregion
