@@ -27,7 +27,7 @@ namespace BattleRoyal
     {
         public const string PluginGuid = "com.cheep_yt.amongusbattleroyale";
         public const string PluginName = "BattleRoyaleGameMode";
-        public const string PluginVersion = "1.4.0";
+        public const string PluginVersion = "1.4.1";
 
         public const string GameModeName = "BattleRoyale";
 
