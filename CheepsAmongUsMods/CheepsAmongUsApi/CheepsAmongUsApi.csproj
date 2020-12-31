@@ -82,11 +82,9 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\..\..\References\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.InputLegacyModule">
+    <Reference Include="UnityEngine.InputLegacyModule, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\References\UnityEngine.InputLegacyModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.InputModule">
-      <HintPath>..\..\..\..\References\UnityEngine.InputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Physics2DModule">
       <HintPath>..\..\..\..\References\UnityEngine.Physics2DModule.dll</HintPath>

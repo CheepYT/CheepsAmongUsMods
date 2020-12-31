@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleRoyaleGameMode", "Bat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CheepsUnlocker", "CheepsUnlocker\CheepsUnlocker.csproj", "{C8D5791C-DBD5-4C7B-A57A-C54932ECE27F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JesterGameMode", "JesterGameMode\JesterGameMode.csproj", "{6AF315EA-D8FB-4F2C-9697-3D2C8A11D52F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{C8D5791C-DBD5-4C7B-A57A-C54932ECE27F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8D5791C-DBD5-4C7B-A57A-C54932ECE27F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8D5791C-DBD5-4C7B-A57A-C54932ECE27F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AF315EA-D8FB-4F2C-9697-3D2C8A11D52F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AF315EA-D8FB-4F2C-9697-3D2C8A11D52F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AF315EA-D8FB-4F2C-9697-3D2C8A11D52F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AF315EA-D8FB-4F2C-9697-3D2C8A11D52F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

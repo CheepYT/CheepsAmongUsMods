@@ -14,7 +14,6 @@ using IntroClass = PENEIDJGGAF.CKACLKCOJFO;
 using KillButtonClass = MLPJGKEACMM;
 using GameStartManager = ANKMIOIMNFE;
 using ShipStatusClass = HLBNNHFCNAJ;
-using Hazel;
 
 namespace BattleRoyale
 {
