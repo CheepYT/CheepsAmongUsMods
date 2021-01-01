@@ -4,11 +4,6 @@ using BepInEx.Logging;
 using CheepsAmongUsApi.API;
 using CheepsAmongUsApi.API.Enumerations;
 using CheepsAmongUsApi.API.Events;
-using HarmonyLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 using GameStateEnum = KHNHJFFECBP.KGEKNMMAKKN;
@@ -23,7 +18,7 @@ namespace AnonGameMode
     {
         public const string PluginGuid = "com.cheep_yt.amongusanon";
         public const string PluginName = "AnonGameMode";
-        public const string PluginVersion = "1.0.5";
+        public const string PluginVersion = "1.0.53";
 
         public const string GameModeName = "Anon";
 
@@ -35,11 +30,11 @@ namespace AnonGameMode
         {
             get
             {
-                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.CurrentGame == null)
-                    return false;
-                else
+                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.CurrentGame != null)
                     return CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.CurrentGame.GameState == GameStateEnum.Started &&
                         GameModeName == CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.ActiveGameMode;
+                else
+                    return false;
             }
         }
 

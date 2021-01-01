@@ -179,8 +179,6 @@ namespace CheepsAmongUsApi.API
             PlayerControl.nameText.Color = toSetColor;
         }
 
-        private static Dictionary<uint, HatType> PrevHat = new Dictionary<uint, HatType>();
-
         /// <summary>
         /// Player speed
         /// </summary>
