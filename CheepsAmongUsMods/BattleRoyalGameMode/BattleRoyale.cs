@@ -27,7 +27,7 @@ namespace BattleRoyale
     {
         public const string PluginGuid = "com.cheep_yt.amongusbattleroyale";
         public const string PluginName = "BattleRoyaleGameMode";
-        public const string PluginVersion = "1.4.1";
+        public const string PluginVersion = "1.5.1";
 
         public const string GameModeName = "BattleRoyale";
 
@@ -154,8 +154,6 @@ namespace BattleRoyale
 
                     LastKilled = Functions.GetUnixTime();
 
-                    Started = true;
-
                     //PlayerController.GetAllPlayers().Where(x => x.PlayerData.IsImpostor).ToList()[0].PlayerData.IsImpostor = false; // Unset existing impostor for this client
 
                     MaxPlayerCount = PlayerController.GetAllPlayers().Count;
@@ -163,6 +161,12 @@ namespace BattleRoyale
                     PlayerController.GetLocalPlayer().ClearTasks();
 
                     PlayerHudManager.SetVictoryText($"{Functions.ColorCyan}Victory Royale");
+
+                    /*foreach (var door in ShipStatusClass.Instance.AllDoors)
+                    {
+                        door.Open = true;
+                        door.DoUpdate(1f);
+                    }*/
 
                     #region ---------- Random Start Location ----------
                     if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer() && MapLocations.ContainsKey(GameOptions.Map) && RandomStartLocation)
@@ -308,7 +312,10 @@ namespace BattleRoyale
                 var player = PlayerController.FromNetId(playerId);
 
                 if (player.AmPlayerController())
+                {
+                    Started = true;
                     player.RpcSnapTo(new Vector2(x, y));
+                }
             }
 
             if (e.Command == "KillPlayer")
@@ -316,9 +323,15 @@ namespace BattleRoyale
                 var target = PlayerController.FromNetId(uint.Parse(e.Value.Split(';')[0]));
                 var killer = PlayerController.FromNetId(uint.Parse(e.Value.Split(';')[1]));
 
-                if (!killer.AmPlayerController())
-                    killer.PlayerControl.MurderPlayer(target.PlayerControl);
+                if (!killer.PlayerData.IsDead && !target.PlayerData.IsDead && CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                    CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("MurderPlayer", $"{target.NetId};{killer.NetId}");
+            }
 
+            if(e.Command == "MurderPlayer")
+            {
+                var target = PlayerController.FromNetId(uint.Parse(e.Value.Split(';')[0]));
+                var killer = PlayerController.FromNetId(uint.Parse(e.Value.Split(';')[1]));
+                killer.PlayerControl.MurderPlayer(target.PlayerControl);
                 target.PlayerData.IsDead = true;
             }
         }

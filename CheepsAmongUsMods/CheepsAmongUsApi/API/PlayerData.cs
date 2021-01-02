@@ -109,5 +109,10 @@ namespace CheepsAmongUsApi.API
         {
             PlayerController = controller;
         }
+
+        public PlayerData(PlayerDataObj data)
+        {
+            PlayerController = new PlayerController(data.LAOEJKHLKAI); // Properties
+        }
     }
 }

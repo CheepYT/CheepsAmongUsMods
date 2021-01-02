@@ -250,6 +250,22 @@ namespace CheepsAmongUsApi.API
         }
 
         /// <summary>
+        /// The player id
+        /// </summary>
+        public byte PlayerId
+        {
+            get
+            {
+                return PlayerControl.PlayerId;
+            }
+
+            set
+            {
+                PlayerControl.PlayerId = value;
+            }
+        }
+
+        /// <summary>
         /// Enables/Disables player collider
         /// </summary>
         public bool HasCollision
@@ -296,6 +312,15 @@ namespace CheepsAmongUsApi.API
             foreach (var ctrls in GetAllPlayers())
                 if (ctrls.NetId == netId)
                     return ctrls;
+
+            return null;
+        }
+
+        public static PlayerController FromPlayerId(byte id)
+        {
+            foreach (var ctrl in GetAllPlayers())
+                if (ctrl.PlayerId == id)
+                    return ctrl;
 
             return null;
         }

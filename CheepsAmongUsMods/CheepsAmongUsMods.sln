@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheJesterGameMode", "TheJes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScientistGameMode", "ScientistGameMode\ScientistGameMode.csproj", "{57D3451C-E956-4B24-9BDC-70D17674209C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdditionalColors", "AdditionalColors\AdditionalColors.csproj", "{77EA7683-8726-4767-B7A0-D4C6D55A39F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{57D3451C-E956-4B24-9BDC-70D17674209C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57D3451C-E956-4B24-9BDC-70D17674209C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57D3451C-E956-4B24-9BDC-70D17674209C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77EA7683-8726-4767-B7A0-D4C6D55A39F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77EA7683-8726-4767-B7A0-D4C6D55A39F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77EA7683-8726-4767-B7A0-D4C6D55A39F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77EA7683-8726-4767-B7A0-D4C6D55A39F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

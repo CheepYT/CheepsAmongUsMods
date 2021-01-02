@@ -113,8 +113,6 @@ namespace BattleRoyale
 
                 BattleRoyale.LastKilled = Functions.GetUnixTime();
 
-                local.PlayerControl.MurderPlayer(target.PlayerControl);
-
                 #region ---------- Write Kill ----------
                 CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("KillPlayer", $"{target.NetId};{local.NetId}");
                 #endregion
