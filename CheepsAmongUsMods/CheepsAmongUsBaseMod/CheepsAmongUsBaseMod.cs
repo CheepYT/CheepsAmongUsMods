@@ -73,6 +73,15 @@ namespace CheepsAmongUsBaseMod
             InstalledGameModes.Add(ActiveGameMode);
             #endregion
 
+            #region ---------- Clear Values GameEnd ----------
+            GameEndedEvent.Listener += () =>
+            {
+                GameSettingsAddition = string.Empty;
+                PlayerHudManager.SetVictoryText(string.Empty);
+                PlayerHudManager.SetDefeatText(string.Empty);
+            };
+            #endregion
+
             #region ---------- Lobby HUD ---------- 
             HudUpdateEvent.Listener += () =>
             {

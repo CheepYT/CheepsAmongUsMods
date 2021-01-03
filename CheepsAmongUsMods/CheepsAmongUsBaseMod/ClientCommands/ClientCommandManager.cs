@@ -26,13 +26,15 @@ namespace CheepsAmongUsBaseMod.ClientCommands
         {
             HelpCommand.Start();
             GameModeCommand.Start();
+            GameOptionsCommand.Start();
         }
 
         private static bool ManageCommand(string cmd)
         {
             bool managed =
                 HelpCommand.ManageCommand(cmd) ||
-                GameModeCommand.ManageCommand(cmd);
+                GameModeCommand.ManageCommand(cmd) ||
+                GameOptionsCommand.ManageCommand(cmd);
 
             #region ----- Call Command Event -----
             var eventArgs = new CommandEventArgs();

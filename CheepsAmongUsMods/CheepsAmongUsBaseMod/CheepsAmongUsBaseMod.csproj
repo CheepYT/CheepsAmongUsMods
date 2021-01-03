@@ -69,6 +69,7 @@
   <ItemGroup>
     <Compile Include="CheepsAmongUsBaseMod.cs" />
     <Compile Include="ClientCommands\GameModeCommand.cs" />
+    <Compile Include="ClientCommands\GameOptionsCommand.cs" />
     <Compile Include="ClientCommands\HelpCommand.cs" />
     <Compile Include="ClientCommands\ClientCommandManager.cs" />
     <Compile Include="Patching.cs" />
