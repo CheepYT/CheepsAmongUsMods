@@ -16,6 +16,7 @@ using UnityEngine;
 using GameStateEnum = KHNHJFFECBP.KGEKNMMAKKN;
 using GameEndReasonEnum = AIMMJPEOPEC;
 using ShipStatusClass = HLBNNHFCNAJ;
+using DeconDoor = NBEJDLGKDGA;
 
 namespace BattleRoyale
 {
@@ -27,7 +28,7 @@ namespace BattleRoyale
     {
         public const string PluginGuid = "com.cheep_yt.amongusbattleroyale";
         public const string PluginName = "BattleRoyaleGameMode";
-        public const string PluginVersion = "1.5.1";
+        public const string PluginVersion = "1.5.34";
 
         public const string GameModeName = "BattleRoyale";
 
@@ -162,12 +163,6 @@ namespace BattleRoyale
 
                     PlayerHudManager.SetVictoryText($"{Functions.ColorCyan}Victory Royale");
 
-                    /*foreach (var door in ShipStatusClass.Instance.AllDoors)
-                    {
-                        door.Open = true;
-                        door.DoUpdate(1f);
-                    }*/
-
                     #region ---------- Random Start Location ----------
                     if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer() && MapLocations.ContainsKey(GameOptions.Map) && RandomStartLocation)
                     {
@@ -178,7 +173,7 @@ namespace BattleRoyale
                         foreach (var player in PlayerController.GetAllPlayers())
                         {
                             if (Locations.Count == 0)
-                                Locations.AddRange(MapLocations[GameOptions.Map]);
+                                Locations.AddRange(MapLocations[GameOptions.Map]); // If there are not enough start locations, refill list
 
                             var location = Locations[rnd.Next(Locations.Count)];
                             Locations.Remove(location);
@@ -186,6 +181,13 @@ namespace BattleRoyale
                             CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("StartLocation", $"{player.NetId};{location.x};{location.y}");
                         }
                     }
+                    #endregion
+
+                    #region ---------- Open All Doors ----------
+                    await Task.Delay(2500);
+
+                    foreach (var door in UnityEngine.Object.FindObjectsOfType<DeconDoor>()) 
+                        door.SetDoorway(true);
                     #endregion
                 });
             };
@@ -212,6 +214,10 @@ namespace BattleRoyale
                     PlayerHudManager.HudManager.ReportButton.enabled = false;    // Disable report button
                     PlayerHudManager.HudManager.ReportButton.gameObject.SetActive(false);    // Disable report button
                     PlayerHudManager.HudManager.ReportButton.renderer.color = new Color(1, 1, 1, 0);    // Hide report button
+
+                    PlayerHudManager.HudManager.UseButton.enabled = false;    // Disable use button
+                    PlayerHudManager.HudManager.UseButton.gameObject.SetActive(false);    // Disable use button
+                    PlayerHudManager.HudManager.UseButton.UseButton.color = new Color(1, 1, 1, 0);    // Hide use button
 
                     PlayerHudManager.HudManager.KillButton.gameObject.SetActive(!PlayerController.GetLocalPlayer().PlayerData.IsDead); // Activate Kill Button
                     PlayerHudManager.HudManager.KillButton.isActive = !PlayerController.GetLocalPlayer().PlayerData.IsDead; // Activate Kill Button
@@ -280,6 +286,7 @@ namespace BattleRoyale
 
             if(e.Command == "SetWinner")
             {
+                Started = false;
                 var winner = PlayerController.FromNetId(uint.Parse(e.Value));
 
                 winner.PlayerData.IsDead = false;

@@ -80,6 +80,9 @@ namespace CheepsAmongUsBaseMod.ClientCommands
                                 PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
                                     $"{Functions.ColorLime}The GameMode has been changed to {Functions.ColorPurple}{cmode}{Functions.ColorLime}."
                                     ); //Send confirmation to player
+
+                                PlayerHudManager.SetDefeatText(string.Empty);   // Reset Defeat Text
+                                PlayerHudManager.SetVictoryText(string.Empty);  // Reset Victory Text
                             }
                         }
                     }
