@@ -9,6 +9,7 @@ using PowerTools;
 using System.Collections.Generic;
 using BepInEx.Configuration;
 using System.Threading.Tasks;
+using CheepsAmongUsApi.API;
 
 namespace CheepsAmongUsApi
 {
@@ -18,7 +19,7 @@ namespace CheepsAmongUsApi
     {
         public const string PluginGuid = "com.cheep_yt.amongusapi";
         public const string PluginName = "CheepsAmongUsApi";
-        public const string PluginVersion = "1.0.3";
+        public const string PluginVersion = "1.1.54";
 
         public static ManualLogSource _logger = null;
 
@@ -29,6 +30,8 @@ namespace CheepsAmongUsApi
 
             var harmony = new Harmony(PluginGuid);
             harmony.PatchAll(Assembly.GetExecutingAssembly());
+
+            CustomButton.StartManager();
         }
     }
 }

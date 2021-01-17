@@ -27,6 +27,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScientistGameMode", "Scient
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdditionalColors", "AdditionalColors\AdditionalColors.csproj", "{77EA7683-8726-4767-B7A0-D4C6D55A39F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShapeShifterGameMode", "ShapeShifterGameMode\ShapeShifterGameMode.csproj", "{4CDCB073-25FF-4B44-AC9E-A222CE804D15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{BA2E5350-0FC8-4EEC-8C84-8622FDA10434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImpostorDisguise", "ImpostorDisguise\ImpostorDisguise.csproj", "{C09F8B62-6F1D-431A-99E1-B6A2FBDAAB04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImpostorInvisibility", "ImpostorInvisibility\ImpostorInvisibility.csproj", "{EF6FF430-A802-445D-A143-7183CBCD67E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrewVentsGameMode", "CrewVentsGameMode\CrewVentsGameMode.csproj", "{11C949E8-3FE1-4032-89AB-AFAB07D3B860}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaptureTheFlagGameMode", "CaptureTheFlagGameMode\CaptureTheFlagGameMode.csproj", "{47839F0E-1710-4CA5-8019-FB866A70BBFB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +93,30 @@ Global
 		{77EA7683-8726-4767-B7A0-D4C6D55A39F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77EA7683-8726-4767-B7A0-D4C6D55A39F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77EA7683-8726-4767-B7A0-D4C6D55A39F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CDCB073-25FF-4B44-AC9E-A222CE804D15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CDCB073-25FF-4B44-AC9E-A222CE804D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CDCB073-25FF-4B44-AC9E-A222CE804D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CDCB073-25FF-4B44-AC9E-A222CE804D15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA2E5350-0FC8-4EEC-8C84-8622FDA10434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA2E5350-0FC8-4EEC-8C84-8622FDA10434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA2E5350-0FC8-4EEC-8C84-8622FDA10434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA2E5350-0FC8-4EEC-8C84-8622FDA10434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C09F8B62-6F1D-431A-99E1-B6A2FBDAAB04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C09F8B62-6F1D-431A-99E1-B6A2FBDAAB04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C09F8B62-6F1D-431A-99E1-B6A2FBDAAB04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C09F8B62-6F1D-431A-99E1-B6A2FBDAAB04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF6FF430-A802-445D-A143-7183CBCD67E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF6FF430-A802-445D-A143-7183CBCD67E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF6FF430-A802-445D-A143-7183CBCD67E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF6FF430-A802-445D-A143-7183CBCD67E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11C949E8-3FE1-4032-89AB-AFAB07D3B860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11C949E8-3FE1-4032-89AB-AFAB07D3B860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11C949E8-3FE1-4032-89AB-AFAB07D3B860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11C949E8-3FE1-4032-89AB-AFAB07D3B860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47839F0E-1710-4CA5-8019-FB866A70BBFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47839F0E-1710-4CA5-8019-FB866A70BBFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47839F0E-1710-4CA5-8019-FB866A70BBFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47839F0E-1710-4CA5-8019-FB866A70BBFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

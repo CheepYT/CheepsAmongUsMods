@@ -16,6 +16,7 @@ using MainMenuClass = BOCOFLHKCOJ;
 using PingClass = ELDIDNABIPI;
 using TextRendererClass = AELDHKGBIFD;
 using GameManagerClass = KOHGPBDBBJI;
+using LobbyBehaviour = PFLIBLFPGGB;
 #endregion
 
 namespace CheepsAmongUsApi.API.Events
@@ -84,6 +85,24 @@ namespace CheepsAmongUsApi.API.Events
         }
         #endregion
 
+        #region -------------------- Patch Lobby Behaviour Started Event --------------------
+        [HarmonyPatch(typeof(LobbyBehaviour), nameof(LobbyBehaviour.Start))]
+        public static class Patch_LobbyBehaviour_Start
+        {
+            public static void Postfix()
+            {
+                try
+                {
+                    LobbyBehaviourStartedEvent.CallEvent();
+                }
+                catch (Exception e)
+                {
+                    CheepsAmongUs._logger.LogError("Error invoking LobbyBehaviourStartedEvent: " + e);
+                }
+            }
+        }
+        #endregion
+
         #region -------------------- Patch Game Joined Event --------------------
         [HarmonyPatch(typeof(GameJoinClass), nameof(GameJoinClass.JoinGame))]
         public static class Patch_GameJoinClass_JoinGame
@@ -120,6 +139,24 @@ namespace CheepsAmongUsApi.API.Events
         }
         #endregion
 
+        #region -------------------- Patch Player Sync Settings Event --------------------
+        [HarmonyPatch(typeof(PlayerControlClass), nameof(PlayerControlClass.RpcSyncSettings))]
+        public static class Patch_PlayerControlClass_RpcSyncSettings
+        {
+            public static void Postfix()
+            {
+                try
+                {
+                    SyncedSettingsEvent.CallEvent();
+                }
+                catch (Exception e)
+                {
+                    CheepsAmongUs._logger.LogError("Error invoking SyncedSettingsEvent: " + e);
+                }
+            }
+        }
+        #endregion
+
         #region -------------------- Patch Player Exit Event --------------------
         [HarmonyPatch(typeof(GameExitClass), nameof(GameExitClass.ExitGame))]
         public static class Patch_GameExitClass_ExitGame
@@ -147,6 +184,9 @@ namespace CheepsAmongUsApi.API.Events
 
             public static void Postfix(MainMenuClass __instance)
             {
+                if (!PlayerHudManager.UseAppendedVersionText)
+                    return;
+
                 __instance.text.Centered = IsCentered;
                 __instance.text.Text += TextToAppend;  //BOCOFLHKCOJ or IJCMADIPDHJ
             }
@@ -162,6 +202,9 @@ namespace CheepsAmongUsApi.API.Events
 
             public static void Postfix(PingClass __instance)
             {
+                if (!PlayerHudManager.UseAppendedAppendedPingText)
+                    return;
+
                 __instance.text.Centered = IsCentered;
                 __instance.text.Text += TextToAppend;  //BOCOFLHKCOJ or IJCMADIPDHJ
             }
@@ -170,6 +213,7 @@ namespace CheepsAmongUsApi.API.Events
 
         #region -------------------- Patch Intro Texts --------------------
         [HarmonyPatch(typeof(TextRendererClass), nameof(TextRendererClass.Start))]
+        [Obsolete]
         public static class PatchTextRendererStart
         {
             internal static string CrewmateText = string.Empty;

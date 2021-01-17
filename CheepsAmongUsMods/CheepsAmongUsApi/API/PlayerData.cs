@@ -45,6 +45,90 @@ namespace CheepsAmongUsApi.API
             }
         }
 
+        public byte PlayerId
+        {
+            get
+            {
+                return PlayerDataObject.JKOMCOJCAID; // 0x8
+            }
+        }
+
+        public byte ColorId
+        {
+            get
+            {
+                return PlayerDataObject.EHAHBDFODKC; // 0x10
+            }
+
+            set
+            {
+                PlayerDataObject.EHAHBDFODKC = value; // 0x10
+            }
+        }
+
+        public ColorType Color
+        {
+            get
+            {
+                return (ColorType)ColorId;
+            }
+            set
+            {
+                ColorId = (byte)value;
+            }
+        }
+
+        public uint SkinId
+        {
+            get
+            {
+                return PlayerDataObject.HPAMBHFDLEH; // 0x1C
+            }
+
+            set
+            {
+                PlayerDataObject.HPAMBHFDLEH = value; // 0x1C
+            }
+        }
+
+        public SkinType Skin
+        {
+            get
+            {
+                return (SkinType)SkinId;
+            }
+
+            set
+            {
+                SkinId = (uint)value;
+            }
+        }
+
+        public uint PetId
+        {
+            get
+            {
+                return PlayerDataObject.AJIBCNMKNPM; // 0x18
+            }
+            set
+            {
+                PlayerDataObject.AJIBCNMKNPM = value; // 0x18
+            }
+        }
+
+        public PetType Pet
+        {
+            get
+            {
+                return (PetType)PetId;
+            }
+
+            set
+            {
+                PetId = (uint)value;
+            }
+        }
+
         public uint HatId
         {
             get

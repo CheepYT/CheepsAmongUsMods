@@ -23,6 +23,17 @@ namespace CheepsAmongUsApi.API
         public static Vector2 TruePositionOffset = new Vector2(OffsetTruePositionX, OffsetTruePositionY);
 
         /// <summary>
+        /// Returns the attached game object
+        /// </summary>
+        public GameObject GameObject
+        {
+            get
+            {
+                return PlayerControl.gameObject;
+            }
+        }
+
+        /// <summary>
         /// Among Us PlayerControl object
         /// </summary>
         public PlayerControl PlayerControl { get; }
@@ -31,15 +42,44 @@ namespace CheepsAmongUsApi.API
         /// Gets the local player and converts it to a PlayerController
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Replaced with LocalPlayer")]
         public static PlayerController GetLocalPlayer()
         {
             return new PlayerController(PlayerControl.LocalPlayer);
         }
 
         /// <summary>
+        /// Gets the local player and converts it to a PlayerController
+        /// </summary>
+        public static PlayerController LocalPlayer
+        {
+            get
+            {
+                return new PlayerController(PlayerControl.LocalPlayer);
+            }
+        }
+
+        /// <summary>
+        /// Gets all player controls and converts them to a list of PlayerController
+        /// </summary>
+        public static List<PlayerController> AllPlayerControls
+        {
+            get
+            {
+                List<PlayerController> toRt = new List<PlayerController>();
+
+                foreach (var playerCtrl in PlayerControl.AllPlayerControls)
+                    toRt.Add(new PlayerController(playerCtrl));
+
+                return toRt;
+            }
+        }
+
+        /// <summary>
         /// Gets all player controls and converts them to a list of PlayerController
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Replaced with AllPlayerControls")]
         public static List<PlayerController> GetAllPlayers()
         {
             List<PlayerController> toRt = new List<PlayerController>();
@@ -51,22 +91,34 @@ namespace CheepsAmongUsApi.API
         }
 
         /// <summary>
-        /// Compares two PlayerController NetIds
+        /// Compares two PlayerController PlayerIds
         /// </summary>
         /// <param name="obj">The other object</param>
         /// <returns></returns>
         public bool Equals(PlayerController obj)
         {
-            return NetId == obj.NetId;
+            return PlayerId == obj.PlayerId;
         }
 
         /// <summary>
         /// Returns true, if the player controller is the local one
         /// </summary>
         /// <returns>true, if player controller is the local one</returns>
+        [Obsolete("Replaced with IsLocalPlayer")]
         public bool AmPlayerController()
         {
-            return Equals(GetLocalPlayer());
+            return Equals(LocalPlayer);
+        }
+
+        /// <summary>
+        /// Returns true, if the player controller is the local one
+        /// </summary>
+        public bool IsLocalPlayer
+        {
+            get
+            {
+                return Equals(LocalPlayer);
+            }
         }
 
         /// <summary>
@@ -196,22 +248,18 @@ namespace CheepsAmongUsApi.API
         }
 
         /// <summary>
-        /// Sets player opacity to 1/0
+        /// Gets or sets player visibility
         /// </summary>
         public bool IsVisible
         {
             set
             {
-                //if (value && PrevHat.ContainsKey(NetId))
-                    //PlayerControl.SetHat((uint)PrevHat[NetId], (int)PlayerData.HatId); // Set previous hat
-                //else
-               // {
-                    //PrevHat[NetId] = PlayerData.Hat; // Save previous hat
+                PlayerControl.KMKADPMJBBH = value; // Properties
+            }
 
-                    //PlayerControl.SetHat(0, (int)PlayerData.HatId);   // Remove hat, because for some reason, it wont update opacity correctly
-               // }
-
-                SetOpacity(value ? 1 : 0);
+            get
+            {
+                return PlayerControl.KMKADPMJBBH;
             }
         }
 
@@ -296,7 +344,7 @@ namespace CheepsAmongUsApi.API
         /// <param name="name">The players name</param>
         public static PlayerController FromName(string name)
         {
-            foreach (var ctrls in GetAllPlayers())
+            foreach (var ctrls in AllPlayerControls)
                 if (ctrls.PlayerData.PlayerName == name)
                     return ctrls;
 
@@ -309,7 +357,7 @@ namespace CheepsAmongUsApi.API
         /// <param name="netId">The players net id</param>
         public static PlayerController FromNetId(uint netId)
         {
-            foreach (var ctrls in GetAllPlayers())
+            foreach (var ctrls in AllPlayerControls)
                 if (ctrls.NetId == netId)
                     return ctrls;
 
@@ -318,7 +366,7 @@ namespace CheepsAmongUsApi.API
 
         public static PlayerController FromPlayerId(byte id)
         {
-            foreach (var ctrl in GetAllPlayers())
+            foreach (var ctrl in AllPlayerControls)
                 if (ctrl.PlayerId == id)
                     return ctrl;
 

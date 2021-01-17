@@ -8,6 +8,7 @@ using CheepsAmongUsBaseMod.ClientCommands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace QuantumTunnelingGameMode
     {
         public const string PluginGuid = "com.cheep_yt.amongusquantumtunneling";
         public const string PluginName = "QuantumTunnelingGameMode";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.7.34";
 
         public const string GameModeName = "QuantumTunneling";
 
@@ -64,6 +65,13 @@ namespace QuantumTunnelingGameMode
             ClientCommandManager.CommandExecuted += ClientCommandManager_CommandExecuted;
             Patching.ServerCommandExecuted += Patching_ServerCommandExecuted;
 
+            #region ---------- Load Button and Text Position Offset ----------
+            float ButtonOffsetX = Config.Bind("Offset", "button_offset_x", -4.5f).Value;
+            float ButtonOffsetY = Config.Bind("Offset", "button_offset_y", -2.25f).Value;
+            float TextOffsetX = Config.Bind("Offset", "text_offset_x", -4.62f).Value;
+            float TextOffsetY = Config.Bind("Offset", "text_offset_y", -1.9f).Value;
+            #endregion
+
             #region ---------- Transmit Properties on Start ----------
             GameStartedEvent.Listener += () =>
             {
@@ -79,6 +87,9 @@ namespace QuantumTunnelingGameMode
             };
             #endregion
 
+            CustomButton EnableDisableCollision = null;
+            CustomText CollisionTextRenderer = null;
+
             HudUpdateEvent.Listener += () =>
             {
                 if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.ActiveGameMode == GameModeName)
@@ -86,8 +97,30 @@ namespace QuantumTunnelingGameMode
                     $"\nAbility Active Period: {Functions.ColorPurple}{OnTime}s[]\n" +
                     $"Ability Cooldown: {Functions.ColorPurple}{UseCooldown}s[]";
 
-                if (!IsThisGameModeActive || !PlayerController.GetLocalPlayer().PlayerData.IsImpostor)
+                if (!IsThisGameModeActive || !PlayerController.LocalPlayer.PlayerData.IsImpostor)
                     return;
+
+                if(EnableDisableCollision == null)
+                    EnableDisableCollision = new CustomButton(ButtonOffsetX, ButtonOffsetY, Functions.LoadSpriteFromAssemblyResource(Assembly.GetExecutingAssembly(), "QuantumTunnelingGameMode.Assets.collision.png"));
+
+                if (CollisionTextRenderer == null)
+                {
+                    CollisionTextRenderer = new CustomText(TextOffsetX, TextOffsetY, $"{UseCooldown}");
+                    CollisionTextRenderer.TextRenderer.scale = 2;
+                    CollisionTextRenderer.TextRenderer.Centered = true;
+                    CollisionTextRenderer.SetActive(false);
+                }
+
+                if (PlayerController.LocalPlayer.PlayerData.IsDead)
+                {
+                    if(CollisionTextRenderer.Active)
+                        CollisionTextRenderer.SetActive(false);
+
+                    if (EnableDisableCollision.Active)
+                        EnableDisableCollision.SetActive(false);
+
+                    return;
+                }
 
                 string toDisplay = "--- [7a31f7ff]Quantum Tunneling []---\n";
 
@@ -95,10 +128,16 @@ namespace QuantumTunnelingGameMode
                 {
                     toDisplay += $"Collision in [11c5edff]{ OnTime - (Functions.GetUnixTime() - LastEnabled) }s[]";
 
+                    CollisionTextRenderer.SetActive(true);
+                    CollisionTextRenderer.Text = $"{ OnTime - (Functions.GetUnixTime() - LastEnabled) }";
+                    CollisionTextRenderer.Color = new Color(0, 1, 0);
+
                     if (OnTime - (Functions.GetUnixTime() - LastEnabled) <= 0)
                     {
-                        PlayerController ctrl = PlayerController.GetLocalPlayer();
+                        PlayerController ctrl = PlayerController.LocalPlayer;
                         IsEnabled = false;
+
+                        PlayerHudManager.HudManager.ShadowQuad.gameObject.SetActive(true);
 
                         CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand($"ImpostorDematCmd", $"{ ctrl.PlayerData.PlayerName };{ IsEnabled }");
                     }
@@ -110,13 +149,17 @@ namespace QuantumTunnelingGameMode
                     if (CanEnable)
                     {
                         // ----- Can enable demat -----
-                        if (Functions.GetKey(UseKey) && PlayerController.GetLocalPlayer().Moveable)
+                        if (((EnableDisableCollision.InBounds && Functions.GetKey(KeyCode.Mouse0)) || Functions.GetKey(UseKey)) && PlayerController.LocalPlayer.Moveable)
                         {
                             // ----- User pressed key -----
                             LastEnabled = Functions.GetUnixTime();
 
-                            PlayerController ctrl = PlayerController.GetLocalPlayer();
+                            PlayerHudManager.HudManager.ShadowQuad.gameObject.SetActive(false);
+
+                            PlayerController ctrl = PlayerController.LocalPlayer;
                             IsEnabled = true;
+
+                            EnableDisableCollision.SpriteRenderer.color = new Color(0.75f, 0.75f, 0.75f, 0.75f);
 
                             CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand($"ImpostorDematCmd", $"{ ctrl.PlayerData.PlayerName };{ IsEnabled }");
                         }
@@ -124,12 +167,17 @@ namespace QuantumTunnelingGameMode
                         {
                             // ----- Display can press key -----
                             toDisplay += $"Use [11c5edff]{ UseKey }[] to activate.";
+                            EnableDisableCollision.SpriteRenderer.color = new Color(1, 1, 1);
+                            CollisionTextRenderer.gameObject.SetActive(false);
                         }
                     }
                     else
                     {
                         // ----- Cannot enable demat -----
                         toDisplay += $"Cooldown: [11c5edff]{ (UseCooldown + OnTime) - (Functions.GetUnixTime() - LastEnabled) }s[]";
+
+                        CollisionTextRenderer.Text = $"{ (UseCooldown + OnTime) - (Functions.GetUnixTime() - LastEnabled) }";
+                        CollisionTextRenderer.Color = new Color(1, 1, 1);
                     }
                 }
 
@@ -144,6 +192,18 @@ namespace QuantumTunnelingGameMode
                     string toReplace = curText.Split(new string[] { Delimiter }, StringSplitOptions.None)[0];
 
                     PlayerHudManager.TaskText = curText.Replace(toReplace, toDisplay);
+                }
+            };
+
+            GameEndedEvent.Listener += () =>
+            {
+                if(EnableDisableCollision != null)
+                {
+                    EnableDisableCollision.Destroy();
+                    EnableDisableCollision = null;
+
+                    CollisionTextRenderer.Destroy();
+                    CollisionTextRenderer = null;
                 }
             };
         }
@@ -163,9 +223,6 @@ namespace QuantumTunnelingGameMode
 
                 if (ctrl.PlayerControl.CurrentPet.sadClip != null)
                     ctrl.PlayerControl.CurrentPet.Collider.enabled = !enabled;
-
-                if (PlayerController.GetLocalPlayer().PlayerData.IsImpostor || PlayerController.GetLocalPlayer().PlayerData.IsDead)
-                    ctrl.SetOpacity(enabled ? 0.3f : 1f);
             } else if(e.Command == "UpdateOnTime")
             {
                 OnTime = int.Parse(e.Value);
@@ -195,13 +252,13 @@ namespace QuantumTunnelingGameMode
 
                             CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("UpdateOnTime", $"{OnTime}");
 
-                            PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                            PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                                 $"{Functions.ColorLime}The active period has been updated to {Functions.ColorPurple}{OnTime}s"
                                 ); //Send syntax to player
                         }
                         catch
                         {
-                            PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                            PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                                 $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}/qtgm <OnTime> <Int>"
                                 ); //Send syntax to player
                         }
@@ -215,25 +272,25 @@ namespace QuantumTunnelingGameMode
 
                             CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("UpdateUseCooldown", $"{UseCooldown}");
 
-                            PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                            PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                                 $"{Functions.ColorLime}The cooldown has been updated to {Functions.ColorPurple}{UseCooldown}s"
                                 ); //Send syntax to player
                         }
                         catch
                         {
-                            PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                            PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                                 $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}/qtgm <Cooldown> <Int>"
                                 ); //Send syntax to player
                         }
                     } else
                     {
-                        PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                        PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                             $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}/qtgm <OnTime | Cooldown> <Int>"
                             ); //Send syntax to player
                     }
                 } 
                 else
-                    PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                    PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                         $"{Functions.ColorRed}Sorry, but only {Functions.ColorCyan}{CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.GetDecidingPlayer().PlayerData.PlayerName} " +
                         $"{Functions.ColorRed}can change the gamemode properties."
                         ); //Send syntax to player

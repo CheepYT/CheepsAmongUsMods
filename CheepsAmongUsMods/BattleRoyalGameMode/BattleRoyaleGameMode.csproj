@@ -47,11 +47,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\core\BepInEx.IL2CPP.dll</HintPath>
     </Reference>
-    <Reference Include="BepInEx.Preloader.Core, Version=6.0.0.314, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\core\BepInEx.Preloader.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Il2Cppmscorlib, Version=3.7.1.6, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Il2CppSystem.Core, Version=3.7.1.6, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

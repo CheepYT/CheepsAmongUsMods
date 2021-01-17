@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-      <PackageReference Include="NETStandard.Library" Version="$(BundledNETStandardPackageVersion)" />
+    <PackageReference Include="NETStandard.Library" Version="$(BundledNETStandardPackageVersion)" />
     <Reference Include="0Harmony, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\core\0Harmony.dll</HintPath>
@@ -91,6 +91,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\CustomButton.cs" />
+    <Compile Include="API\CustomStopwatch.cs" />
+    <Compile Include="API\CustomText.cs" />
     <Compile Include="API\Enumerations\ColorType.cs" />
     <Compile Include="API\Enumerations\HatType.cs" />
     <Compile Include="API\Enumerations\KillDistance.cs" />
@@ -105,7 +108,9 @@
     <Compile Include="API\Events\GameStartedEvent.cs" />
     <Compile Include="API\Events\HudUpdateEvent.cs" />
     <Compile Include="API\Events\JoinedLobbyEvent.cs" />
+    <Compile Include="API\Events\LobbyBehaviourStartedEvent.cs" />
     <Compile Include="API\Events\PlayerUpdateEvent.cs" />
+    <Compile Include="API\Events\SyncedSettingsEvent.cs" />
     <Compile Include="API\Functions.cs" />
     <Compile Include="API\GameOptions.cs" />
     <Compile Include="API\PlayerController.cs" />
@@ -113,7 +118,6 @@
     <Compile Include="API\PlayerHudManager.cs" />
     <Compile Include="API\RegionApi\Region.cs" />
     <Compile Include="API\RegionApi\Server.cs" />
-    <Compile Include="API\TextRenderer.cs" />
     <Compile Include="CheepsAmongUs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

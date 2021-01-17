@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CheepsAmongUsApi.API;
 using UnityEngine;
+using UnhollowerBaseLib;
 
 using PlayerControl = FFGALNAPKCD;
 using GameData_PlayerInfo = EGLJNOMOGNP.DCJMABDDJCF;
@@ -13,7 +14,11 @@ using IntroClass = PENEIDJGGAF.CKACLKCOJFO;
 using KillButtonClass = MLPJGKEACMM;
 using GameStartManager = ANKMIOIMNFE;
 using ShipStatusClass = HLBNNHFCNAJ;
-using UnhollowerBaseLib;
+using PlayerTab = MAOILGPNFND;
+using Palette = LOCPGOACAJF;
+using GameData = EGLJNOMOGNP;
+using DeadBody = DDPGLPLGFOI;
+using SystemConsole = IMPCIAEIBNB;
 
 namespace BattleRoyale
 {
@@ -67,7 +72,7 @@ namespace BattleRoyale
                 if (!BattleRoyale.IsThisGameModeSelected)
                     return;
 
-                PlayerController local = PlayerController.GetLocalPlayer();
+                PlayerController local = PlayerController.LocalPlayer;
 
                 var team = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 team.Add(local.PlayerControl);
@@ -103,7 +108,7 @@ namespace BattleRoyale
 
             public static bool Prefix(KillButtonClass __instance)
             {
-                var local = PlayerController.GetLocalPlayer();
+                var local = PlayerController.LocalPlayer;
 
                 if (!BattleRoyale.IsThisGameModeActive || Target == null || (Functions.GetUnixTime() - BattleRoyale.LastKilled < GameOptions.KillCooldown && BattleRoyale.LastKilled != 0)
                     || local.PlayerData.IsDead)
@@ -133,6 +138,91 @@ namespace BattleRoyale
                     return true;
 
                 return CanEndGame;
+            }
+        }
+        #endregion
+
+        /*
+        #region ------------------------------ Patch Player Limit ------------------------------
+        [HarmonyPatch(typeof(GameData), nameof(GameData.GetAvailableId))]
+        public static class GameDataAvailableIdPatch
+        {
+            public static bool Prefix(ref GameData __instance, ref sbyte __result)
+            {
+                if (!BattleRoyale.RemovePlayerLimit || !BattleRoyale.IsThisGameModeSelected)
+                    return true;
+
+                for (int i = 0; i < 128; i++)
+                    if (checkId(__instance, i))
+                    {
+                        __result = (sbyte)i;
+                        return false;
+                    }
+                __result = -1;
+                return false;
+            }
+
+            static bool checkId(GameData __instance, int id)
+            {
+                foreach (var p in __instance.AllPlayers)
+                    if (p.JKOMCOJCAID == id)
+                        return false;
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckColor), typeof(byte))]
+        public static class PlayerControlCheckColorPatch
+        {
+            public static bool Prefix(PlayerControl __instance, byte POCIJABNOLE)
+            {
+                if (!BattleRoyale.RemovePlayerLimit || !BattleRoyale.IsThisGameModeSelected)
+                    return true;
+
+                __instance.RpcSetColor(POCIJABNOLE);
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(PlayerTab), nameof(PlayerTab.UpdateAvailableColors))]
+        public static class PlayerTabUpdateAvailableColorsPatch
+        {
+            public static bool Prefix(PlayerTab __instance)
+            {
+                if (!BattleRoyale.RemovePlayerLimit || !BattleRoyale.IsThisGameModeSelected)
+                    return true;
+
+                PlayerControl.SetPlayerMaterialColors(PlayerControl.LocalPlayer.NDGFFHMFGIG.EHAHBDFODKC, __instance.DemoImage);
+                for (int i = 0; i < Palette.OPKIKLENHFA.Length; i++)
+                    __instance.LGAIKONLBIG.Add(i);
+                return false;
+            }
+        }
+        #endregion
+        */
+
+        #region -------------------- Cancel Do Click Report/Use --------------------
+        [HarmonyPatch(typeof(DeadBody), nameof(DeadBody.OnClick))]
+        public static class Patch_DeadBody_OnClick
+        {
+            public static bool Prefix()
+            {
+                if (!BattleRoyale.IsThisGameModeSelected)
+                    return true;
+
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(SystemConsole), nameof(SystemConsole.Use))]
+        public static class Patch_SystemConsole_Use
+        {
+            public static bool Prefix()
+            {
+                if (!BattleRoyale.IsThisGameModeSelected)
+                    return true;
+
+                return false;
             }
         }
         #endregion

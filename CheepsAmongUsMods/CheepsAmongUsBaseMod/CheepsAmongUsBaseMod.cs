@@ -23,7 +23,7 @@ namespace CheepsAmongUsBaseMod
     {
         public const string PluginGuid = "com.cheep_yt.amongusbasemod";
         public const string PluginName = "CheepsAmongUsMod";
-        public const string PluginVersion = "1.0.5";
+        public const string PluginVersion = "1.1.56";
 
         public const string ServerName = "Cheep-YT - Public";
         public const string ServerIP = "207.180.234.175";
@@ -55,6 +55,10 @@ namespace CheepsAmongUsBaseMod
             ClientCommands.ClientCommandManager.Start();
             #endregion
 
+            #region ---------- Start Role Manager ----------
+            RoleManager.Start();
+            #endregion
+
             #region ---------- Append Version Text ----------
             PlayerHudManager.AppendedVersionText = $" + [7a31f7ff]{PluginName} [3170f7ff]v{PluginVersion} []by [2200ffff]CheepYT";
 
@@ -74,11 +78,11 @@ namespace CheepsAmongUsBaseMod
             #endregion
 
             #region ---------- Clear Values GameEnd ----------
-            GameEndedEvent.Listener += () =>
+            GameStartedEvent.Listener += () =>
             {
-                GameSettingsAddition = string.Empty;
                 PlayerHudManager.SetVictoryText(string.Empty);
                 PlayerHudManager.SetDefeatText(string.Empty);
+                GameSettingsAddition = string.Empty;
             };
             #endregion
 
@@ -149,9 +153,9 @@ namespace CheepsAmongUsBaseMod
         /// <returns></returns>
         public static PlayerController GetDecidingPlayer()
         {
-            PlayerController decidingPlayer = PlayerController.GetAllPlayers()[0];
+            PlayerController decidingPlayer = PlayerController.AllPlayerControls[0];
 
-            foreach (var player in PlayerController.GetAllPlayers())
+            foreach (var player in PlayerController.AllPlayerControls)
                 if (player.NetId < decidingPlayer.NetId)
                     decidingPlayer = player;
 

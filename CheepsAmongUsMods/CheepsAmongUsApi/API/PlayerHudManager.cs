@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 #region -------------------- Among Us Types --------------------
 using HudManagerClass = PIEFJFEOGOL; // TypeDefIndex: 7254
 using HudManagerObj = PPAEIPHJPDH<PIEFJFEOGOL>; // TypeDefIndex: 7254
+using TextRendererObject = AELDHKGBIFD;
 #endregion
 
 namespace CheepsAmongUsApi.API
@@ -16,36 +18,45 @@ namespace CheepsAmongUsApi.API
     {
         public static HudManagerClass HudManager { get { return HudManagerObj.IAINKLDJAGC; } }  // TypeDefIndex: 7054  // 0x0
 
-        public static PlayerController PlayerController = PlayerController.GetLocalPlayer();
+        public static PlayerController PlayerController = PlayerController.LocalPlayer;
 
+        [Obsolete]
         public static void SetCrewmateIntroText(string text)
         {
             EventPatches.PatchTextRendererStart.CrewmateText = text;
         }
 
+        [Obsolete]
         public static void SetImpostorIntroText(string text)
         {
             EventPatches.PatchTextRendererStart.ImpostorText = text;
         }
 
+        [Obsolete]
         public static void SetCrewmateSubtitleText(string text)
         {
             EventPatches.PatchTextRendererStart.DescriptionText = text;
         }
+
+        [Obsolete]
         public static void SetCrewmateSubtitleTextBefore(string text)
         {
             EventPatches.PatchTextRendererStart.DescriptionTextBefore = text;
         }
+
+        [Obsolete]
         public static void SetCrewmateSubtitleTextAfter(string text)
         {
             EventPatches.PatchTextRendererStart.DescriptionTextAfter = text;
         }
 
+        [Obsolete]
         public static void SetVictoryText(string text)
         {
             EventPatches.PatchTextRendererStart.VictoryText = text;
         }
 
+        [Obsolete]
         public static void SetDefeatText(string text)
         {
             EventPatches.PatchTextRendererStart.DefeatText = text;
@@ -77,6 +88,8 @@ namespace CheepsAmongUsApi.API
             }
         }
 
+        public static bool UseAppendedVersionText = true;
+
         public static bool IsVersionTextCentered
         {
             get
@@ -102,6 +115,8 @@ namespace CheepsAmongUsApi.API
                 EventPatches.Patch_PingClass_Update.TextToAppend = value;
             }
         }
+
+        public static bool UseAppendedAppendedPingText = true;
 
         public static bool IsPingTextCentered
         {

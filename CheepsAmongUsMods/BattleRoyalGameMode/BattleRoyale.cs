@@ -28,7 +28,7 @@ namespace BattleRoyale
     {
         public const string PluginGuid = "com.cheep_yt.amongusbattleroyale";
         public const string PluginName = "BattleRoyaleGameMode";
-        public const string PluginVersion = "1.5.34";
+        public const string PluginVersion = "1.5.68";
 
         public const string GameModeName = "BattleRoyale";
 
@@ -155,11 +155,11 @@ namespace BattleRoyale
 
                     LastKilled = Functions.GetUnixTime();
 
-                    //PlayerController.GetAllPlayers().Where(x => x.PlayerData.IsImpostor).ToList()[0].PlayerData.IsImpostor = false; // Unset existing impostor for this client
+                    //PlayerController.AllPlayerControls.Where(x => x.PlayerData.IsImpostor).ToList()[0].PlayerData.IsImpostor = false; // Unset existing impostor for this client
 
-                    MaxPlayerCount = PlayerController.GetAllPlayers().Count;
+                    MaxPlayerCount = PlayerController.AllPlayerControls.Count;
 
-                    PlayerController.GetLocalPlayer().ClearTasks();
+                    PlayerController.LocalPlayer.ClearTasks();
 
                     PlayerHudManager.SetVictoryText($"{Functions.ColorCyan}Victory Royale");
 
@@ -170,7 +170,7 @@ namespace BattleRoyale
 
                         System.Random rnd = new System.Random();
 
-                        foreach (var player in PlayerController.GetAllPlayers())
+                        foreach (var player in PlayerController.AllPlayerControls)
                         {
                             if (Locations.Count == 0)
                                 Locations.AddRange(MapLocations[GameOptions.Map]); // If there are not enough start locations, refill list
@@ -205,12 +205,17 @@ namespace BattleRoyale
                     string ToDisplay = "----- [ff7b00ff]Battle Royale[] -----\n" +
                                         "Be the last man standing!\n" +
                                         "\n" +
-                                        $"Players left: { PlayerController.GetAllPlayers().Where(x => !x.PlayerData.IsDead).Count() }/{ MaxPlayerCount }";
+                                        $"Players left: { PlayerController.AllPlayerControls.Where(x => !x.PlayerData.IsDead).Count() }/{ MaxPlayerCount }";
 
                     PlayerHudManager.TaskText = ToDisplay + Delimiter; // Current text
                     #endregion
 
                     #region ----- Display Kill Button -----
+                    PlayerHudManager.HudManager.KillButton.gameObject.SetActive(!PlayerController.LocalPlayer.PlayerData.IsDead); // Activate Kill Button
+                    PlayerHudManager.HudManager.KillButton.isActive = !PlayerController.LocalPlayer.PlayerData.IsDead; // Activate Kill Button
+
+                    PlayerHudManager.HudManager.KillButton.transform.position = PlayerHudManager.HudManager.UseButton.transform.position;   // Move the Kill Button
+
                     PlayerHudManager.HudManager.ReportButton.enabled = false;    // Disable report button
                     PlayerHudManager.HudManager.ReportButton.gameObject.SetActive(false);    // Disable report button
                     PlayerHudManager.HudManager.ReportButton.renderer.color = new Color(1, 1, 1, 0);    // Hide report button
@@ -218,9 +223,6 @@ namespace BattleRoyale
                     PlayerHudManager.HudManager.UseButton.enabled = false;    // Disable use button
                     PlayerHudManager.HudManager.UseButton.gameObject.SetActive(false);    // Disable use button
                     PlayerHudManager.HudManager.UseButton.UseButton.color = new Color(1, 1, 1, 0);    // Hide use button
-
-                    PlayerHudManager.HudManager.KillButton.gameObject.SetActive(!PlayerController.GetLocalPlayer().PlayerData.IsDead); // Activate Kill Button
-                    PlayerHudManager.HudManager.KillButton.isActive = !PlayerController.GetLocalPlayer().PlayerData.IsDead; // Activate Kill Button
 
                     #region --- Update Cooldown ---
                     if (GameOptions.KillCooldown - (Functions.GetUnixTime() - LastKilled) <= 0)
@@ -233,11 +235,11 @@ namespace BattleRoyale
                     #endregion
 
                     #region ----- End Game If Required -----
-                    if (PlayerController.GetAllPlayers().Where(x => !x.PlayerData.IsDead).Count() == 1 && CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer() && Started)
+                    if (PlayerController.AllPlayerControls.Where(x => !x.PlayerData.IsDead).Count() == 1 && CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer() && Started)
                     {
                         Started = false;
 
-                        var winner = PlayerController.GetAllPlayers().Where(x => !x.PlayerData.IsDead).ToList()[0];
+                        var winner = PlayerController.AllPlayerControls.Where(x => !x.PlayerData.IsDead).ToList()[0];
 
                         CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("SetWinner", $"{winner.NetId}");
                     }
@@ -247,14 +249,14 @@ namespace BattleRoyale
                         return;
 
                     #region ----- Get Closest Player -----
-                    IEnumerable<PlayerController> AvailablePlayers = PlayerController.GetAllPlayers().Where(x => !x.PlayerData.IsDead && !x.AmPlayerController());
+                    IEnumerable<PlayerController> AvailablePlayers = PlayerController.AllPlayerControls.Where(x => !x.PlayerData.IsDead && !x.AmPlayerController());
 
                     PlayerController closest = AvailablePlayers.ToList()[0];
 
                     foreach (var player in AvailablePlayers)
                     {
-                        float DistOld = Vector2.Distance(closest.Position, PlayerController.GetLocalPlayer().Position);
-                        float DistNew = Vector2.Distance(player.Position, PlayerController.GetLocalPlayer().Position);
+                        float DistOld = Vector2.Distance(closest.Position, PlayerController.LocalPlayer.Position);
+                        float DistNew = Vector2.Distance(player.Position, PlayerController.LocalPlayer.Position);
 
                         if (DistNew < DistOld)
                             closest = player;
@@ -262,7 +264,7 @@ namespace BattleRoyale
                     #endregion
 
                     #region --- Update Target ---
-                    if (Vector2.Distance(closest.Position, PlayerController.GetLocalPlayer().Position) <= KillDistance)
+                    if (Vector2.Distance(closest.Position, PlayerController.LocalPlayer.Position) <= KillDistance)
                     {
                         PlayerHudManager.HudManager.KillButton.SetTarget(closest.PlayerControl);
                         PlayerHudManager.HudManager.KillButton.CurrentTarget = closest.PlayerControl;
@@ -291,7 +293,7 @@ namespace BattleRoyale
 
                 winner.PlayerData.IsDead = false;
 
-                foreach (var player in PlayerController.GetAllPlayers().Where(x => !x.Equals(winner)))
+                foreach (var player in PlayerController.AllPlayerControls.Where(x => !x.Equals(winner)))
                     player.PlayerData.IsDead = true;
 
                 PlayerHudManager.SetDefeatText($"{Functions.ColorOrange}" +

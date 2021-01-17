@@ -105,17 +105,19 @@ namespace CheepsAmongUsBaseMod.ClientCommands
                                     }
                                 case "killdistance":
                                     {
-                                        KillDistance val;
-
-                                        if (Enum.TryParse(args[2], true, out val))
+                                        try
+                                        {
+                                            var val = (KillDistance) Enum.Parse(typeof(KillDistance), args[2], true);
                                             GameOptions.KillDistance = val;
-                                        else
+                                        }
+                                        catch
                                         {
                                             PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
-                                                $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}{Command} Map <{NumEnumVals(typeof(KillDistance), " | ")}>"
+                                                $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}{Command} KillDistance <{NumEnumVals(typeof(KillDistance), " | ")}>"
                                                 ); //Send syntax to player
                                             return true;
                                         }
+
                                         break;
                                     }
                                 case "longtasks":
@@ -127,17 +129,19 @@ namespace CheepsAmongUsBaseMod.ClientCommands
                                     }
                                 case "map":
                                     {
-                                        MapType val;
-
-                                        if (Enum.TryParse(args[2], true, out val))
+                                        try
+                                        {
+                                            var val = (MapType)Enum.Parse(typeof(MapType), args[2], true);
                                             GameOptions.Map = val;
-                                        else
+                                        }
+                                        catch
                                         {
                                             PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
                                                 $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}{Command} Map <{NumEnumVals(typeof(MapType), " | ")}>"
                                                 ); //Send syntax to player
                                             return true;
                                         }
+
                                         break;
                                     }
                                 case "maxplayers":
@@ -163,17 +167,19 @@ namespace CheepsAmongUsBaseMod.ClientCommands
                                     }
                                 case "taskbarupdates":
                                     {
-                                        TaskBarUpdates val;
-
-                                        if (Enum.TryParse(args[2], true, out val))
+                                        try
+                                        {
+                                            var val = (TaskBarUpdates)Enum.Parse(typeof(TaskBarUpdates), args[2], true);
                                             GameOptions.TaskBarUpdates = val;
-                                        else
+                                        }
+                                        catch
                                         {
                                             PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
-                                                $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}{Command} Map <{NumEnumVals(typeof(TaskBarUpdates), " | ")}>"
+                                                $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}{Command} TaskBarUpdates <{NumEnumVals(typeof(TaskBarUpdates), " | ")}>"
                                                 ); //Send syntax to player
                                             return true;
                                         }
+
                                         break;
                                     }
                                 case "votingtime":

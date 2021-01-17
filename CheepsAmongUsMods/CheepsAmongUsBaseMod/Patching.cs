@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using GameObjectClass = KHNHJFFECBP;
 using PlayerControlClass = FFGALNAPKCD;
 using ChatClass = GEHKHGLKFHE;
+using StatsManager = ENHLBAECCDF;
+
 using CheepsAmongUsApi.API;
 
 namespace CheepsAmongUsBaseMod
