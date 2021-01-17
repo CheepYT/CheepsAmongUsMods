@@ -28,3 +28,7 @@ You can download modification releases here
 
 5. Battle Royal: https://cheep-yt.com/file.php?id=2679
 <img src="https://cheep-yt.com/files/2679/images/hd_01.png" alt="drawing" width="500"/>
+
+
+6. The Jester: https://cheep-yt.com/file.php?id=4887
+<img src="https://cheep-yt.com/files/4887/images/hd_00.png" alt="drawing" width="500"/>
