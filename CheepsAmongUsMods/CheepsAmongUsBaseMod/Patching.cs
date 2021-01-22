@@ -36,6 +36,9 @@ namespace CheepsAmongUsBaseMod
                         {
                             case "GameMode":
                                 {
+                                    if(CheepsAmongUsBaseMod.ActiveGameMode != val)
+                                        GameModeChangedEvent.ExecuteGameModeChangedEvent(CheepsAmongUsBaseMod.ActiveGameMode, val);
+
                                     CheepsAmongUsBaseMod.ActiveGameMode = val;
                                     PlayerHudManager.AppendedPingText = $"\nMode: {Functions.ColorPurple}{ CheepsAmongUsBaseMod.AddSpaces(val) }[]\n" +
                                         $">> {Functions.ColorGreen}Cheep-YT.com[] <<";
@@ -55,7 +58,7 @@ namespace CheepsAmongUsBaseMod
 
                             case "RequestGameMode":
                                 {
-                                    if (CheepsAmongUsBaseMod.AmDecidingPlayer())
+                                    if (CheepsAmongUsBaseMod.IsDecidingClient)
                                         CheepsAmongUsBaseMod.SendModCommand("GameMode", CheepsAmongUsBaseMod.ActiveGameMode);
 
                                     break;

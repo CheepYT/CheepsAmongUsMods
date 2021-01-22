@@ -178,7 +178,10 @@ namespace BattleRoyale
                             var location = Locations[rnd.Next(Locations.Count)];
                             Locations.Remove(location);
 
-                            CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("StartLocation", $"{player.NetId};{location.x};{location.y}");
+                            string x = location.x.ToString().Replace(".", ",");
+                            string y = location.y.ToString().Replace(".", ",");
+
+                            CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("StartLocation", $"{player.NetId};{x};{y}");
                         }
                     }
                     #endregion

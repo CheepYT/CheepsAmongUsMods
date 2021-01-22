@@ -26,11 +26,11 @@ namespace CheepsAmongUsBaseMod.ClientCommands
 
             if (args[0].Equals(Command.ToLower()))
             {
-                if (CheepsAmongUsBaseMod.AmDecidingPlayer())
+                if (CheepsAmongUsBaseMod.IsDecidingClient)
                 {
                     if (CheepsAmongUsBaseMod.CurrentGame.GameState == KHNHJFFECBP.KGEKNMMAKKN.Started)
                     {
-                        PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                        PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                             $"{Functions.ColorRed}The game options cannot be changed when the game has already started."
                             ); //Send chat to player
                     }
@@ -112,7 +112,7 @@ namespace CheepsAmongUsBaseMod.ClientCommands
                                         }
                                         catch
                                         {
-                                            PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                                            PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                                                 $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}{Command} KillDistance <{NumEnumVals(typeof(KillDistance), " | ")}>"
                                                 ); //Send syntax to player
                                             return true;
@@ -136,7 +136,7 @@ namespace CheepsAmongUsBaseMod.ClientCommands
                                         }
                                         catch
                                         {
-                                            PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                                            PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                                                 $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}{Command} Map <{NumEnumVals(typeof(MapType), " | ")}>"
                                                 ); //Send syntax to player
                                             return true;
@@ -174,7 +174,7 @@ namespace CheepsAmongUsBaseMod.ClientCommands
                                         }
                                         catch
                                         {
-                                            PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                                            PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                                                 $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}{Command} TaskBarUpdates <{NumEnumVals(typeof(TaskBarUpdates), " | ")}>"
                                                 ); //Send syntax to player
                                             return true;
@@ -192,7 +192,7 @@ namespace CheepsAmongUsBaseMod.ClientCommands
                             }
 
                             GameOptions.RpcSyncSettings();
-                            PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                            PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                             $"{Functions.ColorLime}Game Options have been updated."
                             ); //Send chat to player
                         } catch
@@ -202,15 +202,15 @@ namespace CheepsAmongUsBaseMod.ClientCommands
                                 "EmergencyMeetings | ImpostorCount | ImpostorVision | KillCooldown | KillDistance | " +
                                 "LongTasks | Map | MaxPlayers | PlayerSpeed | ShortTasks | TaskBarUpdates | VotingTime";
 
-                            PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                            PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                                 $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}{Command} <{options}> <Value>"
                                 ); //Send syntax to player
                         }
                     }
                 } else
                 {
-                    PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
-                        $"{Functions.ColorRed}Sorry, but only {Functions.ColorCyan}{CheepsAmongUsBaseMod.GetDecidingPlayer().PlayerData.PlayerName} " +
+                    PlayerHudManager.AddChat(PlayerController.LocalPlayer,
+                        $"{Functions.ColorRed}Sorry, but only {Functions.ColorCyan}{CheepsAmongUsBaseMod.DecidingClient.PlayerData.PlayerName} " +
                         $"{Functions.ColorRed}can change the game options."
                         ); //Send chat to player
                 }

@@ -23,11 +23,11 @@ namespace CheepsAmongUsBaseMod.ClientCommands
 
             if (args[0].Equals(Command.ToLower()))
             {
-                if (CheepsAmongUsBaseMod.AmDecidingPlayer())
+                if (CheepsAmongUsBaseMod.IsDecidingClient)
                 {
                     if(CheepsAmongUsBaseMod.CurrentGame.GameState == KHNHJFFECBP.KGEKNMMAKKN.Started)
                     {
-                        PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                        PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                             $"{Functions.ColorRed}The GameMode cannot be changed when the game has already started."
                             ); //Send chat to player
                     } else
@@ -43,7 +43,7 @@ namespace CheepsAmongUsBaseMod.ClientCommands
 
                             modes = modes.Substring(0, modes.Length - 3);
 
-                            PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                            PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                                 $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}{Command} <{modes}>"
                                 ); //Send syntax to player
                         }
@@ -67,7 +67,7 @@ namespace CheepsAmongUsBaseMod.ClientCommands
 
                                 modes = modes.Substring(0, modes.Length - 3);
 
-                                PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                                PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                                     $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}{Command} <{modes}>"
                                     ); //Send syntax to player
                             }
@@ -77,7 +77,7 @@ namespace CheepsAmongUsBaseMod.ClientCommands
 
                                 CheepsAmongUsBaseMod.SendModCommand("GameMode", cmode); // Broadcast change
 
-                                PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                                PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                                     $"{Functions.ColorLime}The GameMode has been changed to {Functions.ColorPurple}{cmode}{Functions.ColorLime}."
                                     ); //Send confirmation to player
 
@@ -89,8 +89,8 @@ namespace CheepsAmongUsBaseMod.ClientCommands
                     }
                 } else
                 {
-                    PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
-                        $"{Functions.ColorRed}Sorry, but only {Functions.ColorCyan}{CheepsAmongUsBaseMod.GetDecidingPlayer().PlayerData.PlayerName} " +
+                    PlayerHudManager.AddChat(PlayerController.LocalPlayer,
+                        $"{Functions.ColorRed}Sorry, but only {Functions.ColorCyan}{CheepsAmongUsBaseMod.DecidingClient.PlayerData.PlayerName} " +
                         $"{Functions.ColorRed}can change the gamemode."
                         ); //Send chat to player
                 }

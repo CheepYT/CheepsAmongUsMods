@@ -121,7 +121,7 @@ namespace CheepsAmongUsBaseMod
         /// <param name="val">Value to send (must not contain ':' or '=')</param>
         public static void SendModCommand(string cmd, string val)
         {
-            PlayerController.GetLocalPlayer().RpcSendChat($"MessageFrom{PluginName}:{cmd}={val}"); 
+            PlayerController.LocalPlayer.RpcSendChat($"MessageFrom{PluginName}:{cmd}={val}"); 
         }
 
         /// <summary>
@@ -148,9 +148,38 @@ namespace CheepsAmongUsBaseMod
         }
 
         /// <summary>
+        /// Returns the player with the lowest value player id
+        /// </summary>
+        public static PlayerController DecidingClient
+        {
+            get
+            {
+                PlayerController decidingPlayer = PlayerController.AllPlayerControls[0];
+
+                foreach (var player in PlayerController.AllPlayerControls)
+                    if (player.PlayerId < decidingPlayer.PlayerId)
+                        decidingPlayer = player;
+
+                return decidingPlayer;
+            }
+        }
+
+        /// <summary>
+        /// Returns true, if the local player is the player with the lowest value player id
+        /// </summary>
+        public static bool IsDecidingClient
+        {
+            get
+            {
+                return DecidingClient.IsLocalPlayer;
+            }
+        }
+
+        /// <summary>
         /// Returns the player with the lowest value net id
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Replaced with DecidingClient")]
         public static PlayerController GetDecidingPlayer()
         {
             PlayerController decidingPlayer = PlayerController.AllPlayerControls[0];
@@ -166,9 +195,10 @@ namespace CheepsAmongUsBaseMod
         /// Returns true, if the local player is the player with the lowest value net id
         /// </summary>
         /// <returns></returns>
+        [Obsolete("Replaced with IsDecidingClient")]
         public static bool AmDecidingPlayer()
         {
-            return GetDecidingPlayer().AmPlayerController();
+            return GetDecidingPlayer().IsLocalPlayer;
         }
     }
 }

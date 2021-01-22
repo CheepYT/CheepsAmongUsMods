@@ -79,16 +79,29 @@ namespace CheepsAmongUsApi.API
             }
         }
 
-        public static KillDistance KillDistance // 0x40
+        public static int KillDistanceValue
         {
             get
             {
-                return (KillDistance)GameOptionsObject.DLIBONBKPKL;
+                return GameOptionsObject.DLIBONBKPKL;
             }
 
             set
             {
-                GameOptionsObject.DLIBONBKPKL = (int)value;
+                GameOptionsObject.DLIBONBKPKL = value;
+            }
+        }
+
+        public static KillDistance KillDistance // 0x40
+        {
+            get
+            {
+                return (KillDistance)KillDistanceValue;
+            }
+
+            set
+            {
+                KillDistanceValue = (int)value;
             }
         }
 
