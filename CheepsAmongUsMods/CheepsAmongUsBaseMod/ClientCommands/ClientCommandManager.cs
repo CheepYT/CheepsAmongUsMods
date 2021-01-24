@@ -64,7 +64,7 @@ namespace CheepsAmongUsBaseMod.ClientCommands
         {
             public static bool Prefix(PlayerControl __instance, string PGIBDIEPGIC)
             {
-                if (!new PlayerController(__instance).AmPlayerController() || !PGIBDIEPGIC.StartsWith(CommandPrefix))
+                if (!new PlayerController(__instance).IsLocalPlayer || !PGIBDIEPGIC.StartsWith(CommandPrefix))
                     return true;
 
                 return !ManageCommand(PGIBDIEPGIC);

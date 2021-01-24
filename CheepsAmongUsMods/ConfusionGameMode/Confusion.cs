@@ -56,7 +56,7 @@ namespace ConfusionGameMode
                     return;
 
                 #region --------- Update player styles ---------
-                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient)
                     Task.Run(async () =>
                     {
                         await Task.Delay(2500); // Wait a bit
@@ -66,7 +66,7 @@ namespace ConfusionGameMode
                         List<ColorType> AvailableColors = new List<ColorType>((IEnumerable<ColorType>)Enum.GetValues(typeof(ColorType)));
                         List<ColorType> AvailableNames = new List<ColorType>(AvailableColors);
 
-                        foreach(var player in PlayerController.GetAllPlayers())
+                        foreach(var player in PlayerController.AllPlayerControls)
                         {
                             #region ---------- This is required, if more than 12 players are online, as the game only offers 12 colors ----------
                             if (AvailableColors.Count == 0 || AvailableNames.Count == 0)
@@ -110,7 +110,7 @@ namespace ConfusionGameMode
 
                 var player = PlayerController.FromName(playerName);
 
-                if (player.AmPlayerController())
+                if (player.IsLocalPlayer)
                 {
                     // Only the player can set its own style
                     ColorType colorType = (ColorType)Enum.Parse(typeof(ColorType), color);

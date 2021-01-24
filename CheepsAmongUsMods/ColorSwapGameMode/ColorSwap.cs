@@ -63,7 +63,7 @@ namespace ColorSwapGameMode
 
             GameStartedEvent.Listener += () =>
             {
-                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.ActiveGameMode != GameModeName || !CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.ActiveGameMode != GameModeName || !CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient)
                     return;
 
                 Task.Run(async () =>
@@ -75,7 +75,7 @@ namespace ColorSwapGameMode
                     Random random = new Random();
                     List<ColorType> AvailableColors = new List<ColorType>((IEnumerable<ColorType>)Enum.GetValues(typeof(ColorType)));
 
-                    foreach (var player in PlayerController.GetAllPlayers())
+                    foreach (var player in PlayerController.AllPlayerControls)
                     {
                         #region ---------- This is required, if more than 12 players are online, as the game only offers 12 colors ----------
                         if (AvailableColors.Count == 0)
@@ -112,11 +112,11 @@ namespace ColorSwapGameMode
 
                     Random random = new Random();
 
-                    if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                    if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient)
                     {
                         List<ColorType> AvailableColors = new List<ColorType>((IEnumerable<ColorType>)Enum.GetValues(typeof(ColorType)));
 
-                        foreach (var player in PlayerController.GetAllPlayers())
+                        foreach (var player in PlayerController.AllPlayerControls)
                         {
                             #region ---------- This is required, if more than 12 players are online, as the game only offers 12 colors ----------
                             if (AvailableColors.Count == 0)
@@ -158,7 +158,7 @@ namespace ColorSwapGameMode
             {
                 e.Handled = true;
 
-                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient)
                     try
                     {
                         int delay = int.Parse(e.Arguments[1]);
@@ -167,19 +167,19 @@ namespace ColorSwapGameMode
 
                         CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("UpdateSwapDelay", $"{SwapDelay}");
 
-                        PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                        PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                             $"{Functions.ColorLime}The color swap interval has been updated to {Functions.ColorPurple}{SwapDelay}s"
                             ); //Send syntax to player
                     }
                     catch
                     {
-                        PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                        PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                             $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}/colorswapdelay <Int>"
                             ); //Send syntax to player
                     }
                 else
-                    PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
-                        $"{Functions.ColorRed}Sorry, but only {Functions.ColorCyan}{CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.GetDecidingPlayer().PlayerData.PlayerName} " +
+                    PlayerHudManager.AddChat(PlayerController.LocalPlayer,
+                        $"{Functions.ColorRed}Sorry, but only {Functions.ColorCyan}{CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.DecidingClient.PlayerData.PlayerName} " +
                         $"{Functions.ColorRed}can change the color swap interval."
                         ); //Send syntax to player
             }
@@ -204,7 +204,7 @@ namespace ColorSwapGameMode
 
                 var player = PlayerController.FromNetId(uint.Parse(netId));
 
-                if (player.AmPlayerController())
+                if (player.IsLocalPlayer)
                 {
                     player.RpcSetHat(HatType.NoHat);
                     player.RpcSetSkin(SkinType.None);

@@ -55,7 +55,7 @@ namespace AnonGameMode
                 {
                     await Task.Delay(2500); // Wait a bit
 
-                    var player = PlayerController.GetLocalPlayer();
+                    var player = PlayerController.LocalPlayer;
 
                     player.RpcSetColor(ColorType.Black);
                     player.RpcSetHat(HatType.NoHat);

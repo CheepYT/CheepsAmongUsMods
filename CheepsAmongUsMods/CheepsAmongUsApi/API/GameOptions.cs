@@ -16,7 +16,7 @@ namespace CheepsAmongUsApi.API
     {
         public static void RpcSyncSettings()
         {
-            PlayerController.GetLocalPlayer().PlayerControl.RpcSyncSettings(GameOptionsObject);
+            PlayerController.LocalPlayer.PlayerControl.RpcSyncSettings(GameOptionsObject);
         }
 
         public static GameOptionsObject GameOptionsObject

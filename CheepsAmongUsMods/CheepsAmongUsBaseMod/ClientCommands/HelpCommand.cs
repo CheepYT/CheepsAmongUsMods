@@ -32,7 +32,7 @@ namespace CheepsAmongUsBaseMod.ClientCommands
                 foreach (var keyVal in AvailableCommands)
                     commands += $"{CommandColor}{keyVal.Key}[].....{keyVal.Value}\n";
 
-                PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                     $"-------------------- {AvailableCommandsColor}Available Commands []--------------------\n" +
                     commands +
                     $"-------------------- {AvailableCommandsColor}Available Commands []--------------------"

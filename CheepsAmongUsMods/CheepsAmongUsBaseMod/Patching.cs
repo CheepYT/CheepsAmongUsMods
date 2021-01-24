@@ -56,14 +56,6 @@ namespace CheepsAmongUsBaseMod
                                     break;
                                 }
 
-                            case "RequestGameMode":
-                                {
-                                    if (CheepsAmongUsBaseMod.IsDecidingClient)
-                                        CheepsAmongUsBaseMod.SendModCommand("GameMode", CheepsAmongUsBaseMod.ActiveGameMode);
-
-                                    break;
-                                }
-
                             default:
                                 {
                                     ServerCommandEventArgs args = new ServerCommandEventArgs
@@ -111,12 +103,6 @@ namespace CheepsAmongUsBaseMod
             public static void Postfix(GameObjectClass __instance)
             {
                 CheepsAmongUsBaseMod.CurrentGame = __instance;
-
-                Task.Run(async () =>
-                {
-                    await Task.Delay(5000);
-                    CheepsAmongUsBaseMod.SendModCommand("RequestGameMode", $"{true}"); // Request gamemode when joining
-                });
             }
         }
         #endregion

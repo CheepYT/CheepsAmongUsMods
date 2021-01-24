@@ -112,6 +112,17 @@ namespace CheepsAmongUsBaseMod
                 }
             };
             #endregion
+
+            #region ---------- Transmit GameMode on Sync Settings ----------
+            SyncedSettingsEvent.Listener += () =>
+            {
+                Task.Run(async () =>
+                {
+                    await Task.Delay(3000);
+                    SendModCommand("GameMode", ActiveGameMode);
+                });
+            };
+            #endregion
         }
 
         /// <summary>

@@ -126,7 +126,7 @@ namespace TeleportationGameMode
             #region ---------- Transmit Teleportation Delay on Start ----------
             GameStartedEvent.Listener += () =>
             {
-                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.ActiveGameMode != GameModeName || !CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.ActiveGameMode != GameModeName || !CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient)
                     return;
 
                 Task.Run(async () =>
@@ -157,7 +157,7 @@ namespace TeleportationGameMode
                 {
                     LastTeleported = Functions.GetUnixTime();
                     
-                    if (MapLocations.ContainsKey(GameOptions.Map) && CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                    if (MapLocations.ContainsKey(GameOptions.Map) && CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient)
                     {
                         CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("TeleportNow", $"{true}");
                     }
@@ -193,14 +193,14 @@ namespace TeleportationGameMode
             {
                 LastTeleported = Functions.GetUnixTime();
 
-                if (PlayerController.GetLocalPlayer().PlayerControl.inVent || PlayerController.GetLocalPlayer().PlayerData.IsDead) // Dont teleport if player is dead or in a vent
+                if (PlayerController.LocalPlayer.PlayerControl.inVent || PlayerController.LocalPlayer.PlayerData.IsDead) // Dont teleport if player is dead or in a vent
                     return;
 
                 Vector2[] positions = MapLocations[GameOptions.Map];
 
                 Vector2 toTp = positions[RandomGen.Next(0, positions.Length)];
 
-                var ctrl = PlayerController.GetLocalPlayer();
+                var ctrl = PlayerController.LocalPlayer;
 
                 ctrl.RpcSnapTo(toTp);
             }
@@ -212,7 +212,7 @@ namespace TeleportationGameMode
             {
                 e.Handled = true;
 
-                if(CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                if(CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient)
                     try
                     {
                         int delay = int.Parse(e.Arguments[1]);
@@ -221,19 +221,19 @@ namespace TeleportationGameMode
 
                         CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("UpdateTeleportationDelay", $"{TeleportationDelay}");
 
-                        PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                        PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                             $"{Functions.ColorLime}The teleportation interval has been updated to {Functions.ColorPurple}{TeleportationDelay}s"
                             ); //Send syntax to player
                     }
                     catch
                     {
-                        PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
+                        PlayerHudManager.AddChat(PlayerController.LocalPlayer,
                             $"{Functions.ColorRed}Syntax[]: {Functions.ColorPurple}/tpdelay <Int>"
                             ); //Send syntax to player
                     }
                 else
-                    PlayerHudManager.AddChat(PlayerController.GetLocalPlayer(),
-                        $"{Functions.ColorRed}Sorry, but only {Functions.ColorCyan}{CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.GetDecidingPlayer().PlayerData.PlayerName} " +
+                    PlayerHudManager.AddChat(PlayerController.LocalPlayer,
+                        $"{Functions.ColorRed}Sorry, but only {Functions.ColorCyan}{CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.DecidingClient.PlayerData.PlayerName} " +
                         $"{Functions.ColorRed}can change the teleportation interval."
                         ); //Send syntax to player
             }

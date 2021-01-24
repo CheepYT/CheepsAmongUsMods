@@ -164,7 +164,7 @@ namespace BattleRoyale
                     PlayerHudManager.SetVictoryText($"{Functions.ColorCyan}Victory Royale");
 
                     #region ---------- Random Start Location ----------
-                    if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer() && MapLocations.ContainsKey(GameOptions.Map) && RandomStartLocation)
+                    if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient && MapLocations.ContainsKey(GameOptions.Map) && RandomStartLocation)
                     {
                         List<Vector2> Locations = new List<Vector2>(MapLocations[GameOptions.Map]);
 
@@ -238,7 +238,7 @@ namespace BattleRoyale
                     #endregion
 
                     #region ----- End Game If Required -----
-                    if (PlayerController.AllPlayerControls.Where(x => !x.PlayerData.IsDead).Count() == 1 && CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer() && Started)
+                    if (PlayerController.AllPlayerControls.Where(x => !x.PlayerData.IsDead).Count() == 1 && CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient && Started)
                     {
                         Started = false;
 
@@ -252,7 +252,7 @@ namespace BattleRoyale
                         return;
 
                     #region ----- Get Closest Player -----
-                    IEnumerable<PlayerController> AvailablePlayers = PlayerController.AllPlayerControls.Where(x => !x.PlayerData.IsDead && !x.AmPlayerController());
+                    IEnumerable<PlayerController> AvailablePlayers = PlayerController.AllPlayerControls.Where(x => !x.PlayerData.IsDead && !x.IsLocalPlayer);
 
                     PlayerController closest = AvailablePlayers.ToList()[0];
 
@@ -304,7 +304,7 @@ namespace BattleRoyale
 
                 winner.PlayerData.IsImpostor = true;
 
-                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient)
                 {
                     Task.Run(async () =>
                     {
@@ -323,7 +323,7 @@ namespace BattleRoyale
 
                 var player = PlayerController.FromNetId(playerId);
 
-                if (player.AmPlayerController())
+                if (player.IsLocalPlayer)
                 {
                     Started = true;
                     player.RpcSnapTo(new Vector2(x, y));
@@ -335,7 +335,7 @@ namespace BattleRoyale
                 var target = PlayerController.FromNetId(uint.Parse(e.Value.Split(';')[0]));
                 var killer = PlayerController.FromNetId(uint.Parse(e.Value.Split(';')[1]));
 
-                if (!killer.PlayerData.IsDead && !target.PlayerData.IsDead && CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                if (!killer.PlayerData.IsDead && !target.PlayerData.IsDead && CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient)
                     CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("MurderPlayer", $"{target.NetId};{killer.NetId}");
             }
 

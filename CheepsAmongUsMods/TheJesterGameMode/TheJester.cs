@@ -89,7 +89,7 @@ namespace JesterGameMode
                     while (PlayerController.AllPlayerControls.Count == 1)
                         await Task.Delay(1);
 
-                    if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                    if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient)
                     {
                         var available = PlayerController.AllPlayerControls.Where(x => !x.PlayerData.IsImpostor).ToList();
                         var jester = available[random.Next(available.Count)];

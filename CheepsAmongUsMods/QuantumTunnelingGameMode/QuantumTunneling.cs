@@ -75,7 +75,7 @@ namespace QuantumTunnelingGameMode
             #region ---------- Transmit Properties on Start ----------
             GameStartedEvent.Listener += () =>
             {
-                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.ActiveGameMode != GameModeName || !CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.ActiveGameMode != GameModeName || !CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient)
                     return;
 
                 Task.Run(async () =>
@@ -238,7 +238,7 @@ namespace QuantumTunnelingGameMode
             {
                 e.Handled = true;
 
-                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.AmDecidingPlayer())
+                if (CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient)
                 {
                     var cmd = e.Arguments[1].ToLower();
 
@@ -291,7 +291,7 @@ namespace QuantumTunnelingGameMode
                 } 
                 else
                     PlayerHudManager.AddChat(PlayerController.LocalPlayer,
-                        $"{Functions.ColorRed}Sorry, but only {Functions.ColorCyan}{CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.GetDecidingPlayer().PlayerData.PlayerName} " +
+                        $"{Functions.ColorRed}Sorry, but only {Functions.ColorCyan}{CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.DecidingClient.PlayerData.PlayerName} " +
                         $"{Functions.ColorRed}can change the gamemode properties."
                         ); //Send syntax to player
             }
