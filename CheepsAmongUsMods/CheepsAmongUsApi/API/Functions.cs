@@ -44,6 +44,14 @@ namespace CheepsAmongUsApi.API
             return iCall_LoadImage.Invoke(tex.Pointer, il2cppArray.Pointer, markNonReadable);
         }
 
+        public static int Ping
+        {
+            get
+            {
+                return RpcClass.Instance.DGAKPKLMIEI; // Properties 2
+            }
+        }
+
         public static Texture2D LoadTextureFromFile(string filepath)
         {
             try

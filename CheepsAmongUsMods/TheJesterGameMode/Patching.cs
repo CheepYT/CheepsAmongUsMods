@@ -23,7 +23,7 @@ namespace JesterGameMode
         {
             public static void Postfix(MeetingHud __instance)
             {
-                if (!TheJester.IsThisGameModeActive)
+                if (!TheJester.IsThisGameModeSelected)
                     return;
 
                 if (!TheJester.JesterRolePlayer.AmRolePlayer)
@@ -36,52 +36,51 @@ namespace JesterGameMode
         }
         #endregion
 
+        #region -------------------- Cancel End Game --------------------
+        [HarmonyPatch(typeof(ShipStatusClass), nameof(ShipStatusClass.PLBGOMIEONF))]
+        public static class Patch_ShipStatusClass_RpcEndGame
+        {
+            internal static bool CanEndGame = false;
+
+            public static bool Prefix(GameEndReasonEnum JMMJJGKBFJC, bool EMAKAHIFLDE)
+            {
+                if(!TheJester.IsThisGameModeSelected)
+                    return true;
+
+                if (!CanEndGame)
+                {
+                    Task.Run(async () =>
+                    {
+                        await Task.Delay(2000);
+
+                        if (!CanEndGame)
+                        {
+                            ShipStatusClass.PLBGOMIEONF(JMMJJGKBFJC, false);
+                        }
+
+                    });
+                    return false;
+                }
+
+
+                return true;
+            }
+        }
+        #endregion
+
         #region -------------------- Jester Exile Patch --------------------
         [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Die))]
         public static class PatchJesterExile
         {
             public static void Postfix(PlayerControl __instance, DeathReasonEnum OECOPGMHMKC)
             {
-                if (!TheJester.IsThisGameModeActive)
+                if (!TheJester.IsThisGameModeSelected)
                     return;
 
                 if (!new PlayerController(__instance).Equals(TheJester.JesterRolePlayer.PlayerController) || OECOPGMHMKC != DeathReasonEnum.Exile)
                     return;
 
-                CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("JesterWin", $"{true}");
-            }
-        }
-        #endregion
-
-        #region -------------------- Jester Patch End Game --------------------
-        [HarmonyPatch(typeof(ShipStatusClass), nameof(ShipStatusClass.PLBGOMIEONF))]
-        public static class PatchGameEnd
-        {
-            internal static bool CanEndGame = false;
-            public static bool Prefix(GameEndReasonEnum JMMJJGKBFJC)
-            {
-                if (!TheJester.IsThisGameModeActive)
-                    return true;
-
-                if (CanEndGame)
-                {
-                    CanEndGame = false;
-                    return true;
-                } else
-                {
-                    Task.Run(async () =>
-                    {
-                        await Task.Delay(2500);
-                        CanEndGame = true;
-
-                        if (TheJester.HasJesterWon)
-                            ShipStatusClass.PLBGOMIEONF(GameEndReasonEnum.ImpostorByKill, false);
-                        else
-                            ShipStatusClass.PLBGOMIEONF(JMMJJGKBFJC, false);
-                    });
-                }
-
-                return false;
+                CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("JesterWon", $"{true}");
             }
         }
         #endregion

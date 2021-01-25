@@ -15,6 +15,7 @@ using UnityEngine;
 
 using GameStateEnum = KHNHJFFECBP.KGEKNMMAKKN;
 using ShipStatusClass = HLBNNHFCNAJ;
+using GameEndReasonEnum = AIMMJPEOPEC;
 
 namespace JesterGameMode
 {
@@ -33,8 +34,6 @@ namespace JesterGameMode
         public const string Delimiter = "\n----------";
 
         internal static ManualLogSource _logger = null;
-
-#warning Issue: Jester has to do tasks, for crew to have a task win
 
         public static bool IsThisGameModeSelected
         {
@@ -127,15 +126,18 @@ namespace JesterGameMode
             #endregion
 
             #region ---------- Game Ended ----------
-            GameEndedEvent.Listener += () =>
+            LobbyBehaviourStartedEvent.Listener += () =>
             {
                 JesterRolePlayer = null;
                 DefeatRole = null;
                 HasJesterWon = false;
-                Patching.PatchGameEnd.CanEndGame = false;
+                ReceivedBy = 0;
+                Patching.Patch_ShipStatusClass_RpcEndGame.CanEndGame = false;
             };
             #endregion
         }
+
+        static int ReceivedBy = 0;
 
         private void Patching_ServerCommandExecuted(object sender, ServerCommandEventArgs e)
         {
@@ -149,6 +151,9 @@ namespace JesterGameMode
                 var jester = PlayerController.FromPlayerId(playerId);
 
                 JesterRolePlayer = new RolePlayer(jester, "Jester");
+
+                jester.PlayerTaskObjects = new Il2CppSystem.Collections.Generic.List<PILBGHDHJLH>();
+                jester.ClearTasks();
 
                 var intro = JesterRolePlayer.RoleIntro;
                 intro.UseRoleIntro = true;
@@ -170,10 +175,11 @@ namespace JesterGameMode
                     DefeatRole.RoleOutro.WinTextColor = new Color(175 / 255f, 43 / 255f, 237 / 255f);
                     DefeatRole.RoleOutro.BackgroundColor = new Color(127 / 255f, 0 / 255f, 186 / 255f);
                 }
-
                 #endregion
-            } else if(e.Command == "JesterWin")
+            } else if(e.Command == "JesterWon" && !HasJesterWon)
             {
+                HasJesterWon = true;
+
                 #region ---------- Jester has won ----------
                 var outro = JesterRolePlayer.RoleOutro;
                 outro.UseRoleOutro = true;
@@ -184,14 +190,27 @@ namespace JesterGameMode
                 if (!JesterRolePlayer.AmRolePlayer)
                     DefeatRole.RoleOutro.UseRoleOutro = true;
 
-                foreach(var player in PlayerController.AllPlayerControls.Where(x => x.PlayerId != JesterRolePlayer.PlayerController.PlayerId))
+                foreach (var player in PlayerController.AllPlayerControls.Where(x => x.PlayerId != TheJester.JesterRolePlayer.PlayerController.PlayerId))
                     player.PlayerData.IsImpostor = false;
 
-                JesterRolePlayer.PlayerController.PlayerData.IsDead = false;
                 JesterRolePlayer.PlayerController.PlayerData.IsImpostor = true;
                 #endregion
 
-                HasJesterWon = true;
+                CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("JesterWonRecv", $"{true}");
+            } else if(e.Command == "JesterWonRecv" && CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.IsDecidingClient)
+            {
+                ReceivedBy++;
+
+                if (ReceivedBy != PlayerController.AllPlayerControls.Count)
+                    return;
+
+                bool ShouldCallEnd = PlayerController.AllPlayerControls.Where(x => x.PlayerData.IsImpostor).Count() < PlayerController.AllPlayerControls.Where(x => !x.PlayerData.IsImpostor).Count();
+
+                if (ShouldCallEnd)
+                {
+                    Patching.Patch_ShipStatusClass_RpcEndGame.CanEndGame = true;
+                    ShipStatusClass.PLBGOMIEONF(GameEndReasonEnum.ImpostorByKill, false);
+                }
             }
         }
     }

@@ -39,6 +39,8 @@ namespace CheepsAmongUsBaseMod
                                     if(CheepsAmongUsBaseMod.ActiveGameMode != val)
                                         GameModeChangedEvent.ExecuteGameModeChangedEvent(CheepsAmongUsBaseMod.ActiveGameMode, val);
 
+                                    CheepsAmongUsBaseMod.GameSettingsAddition = string.Empty; // Reset Game Settings Addition
+
                                     CheepsAmongUsBaseMod.ActiveGameMode = val;
                                     PlayerHudManager.AppendedPingText = $"\nMode: {Functions.ColorPurple}{ CheepsAmongUsBaseMod.AddSpaces(val) }[]\n" +
                                         $">> {Functions.ColorGreen}Cheep-YT.com[] <<";

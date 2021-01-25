@@ -12,11 +12,21 @@ using IntroRoutine = PENEIDJGGAF.CKACLKCOJFO;
 using EjectRoutine = CNNGMDOPELD.MBGAIMHMPGN;
 using OutroRoutine = ABNGEPFHMHP.EHKHLOLEFFD;
 
+using PlayerControlClass = FFGALNAPKCD;
+
 namespace CheepsAmongUsBaseMod
 {
     public class RoleManager
     {
         public static List<RolePlayer> AllRoles = new List<RolePlayer>();
+
+        public static bool IsLocalRolePlayer
+        {
+            get
+            {
+                return HasPlayerAnyRole(PlayerController.LocalPlayer);
+            }
+        }
 
         public static bool HasPlayerAnyRole(PlayerController player)
         {
@@ -25,13 +35,9 @@ namespace CheepsAmongUsBaseMod
 
         public static void Start()
         {
-            GameEndedEvent.Listener += () =>
+            LobbyBehaviourStartedEvent.Listener += () =>
             {
-                Task.Run(async () =>
-                {
-                    await Task.Delay(5000);
-                    AllRoles.Clear();
-                });
+                AllRoles.Clear();
             };
         }
 
@@ -42,7 +48,7 @@ namespace CheepsAmongUsBaseMod
             {
                 try
                 {
-                    if (AllRoles.Where(x => x.AmRolePlayer).Count() != 1)
+                    if (!IsLocalRolePlayer)
                         return;
 
                     var rolePlayer = AllRoles.Where(x => x.PlayerController.IsLocalPlayer).ToList()[0];
@@ -57,7 +63,7 @@ namespace CheepsAmongUsBaseMod
 
                     __instance.isImpostor = roleIntro.IsRoleImpostor;
 
-                    __instance.yourTeam = new Il2CppSystem.Collections.Generic.List<FFGALNAPKCD>();
+                    __instance.yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControlClass>();
 
                     foreach (var player in roleIntro.TeamPlayers)
                         __instance.yourTeam.Add(player.PlayerControl);
@@ -83,7 +89,7 @@ namespace CheepsAmongUsBaseMod
                     var ejectedId = new PlayerData(__instance.field_Public_CNNGMDOPELD_0.LNMDIKCFBAK).PlayerController.PlayerId;
                     var available = AllRoles.Where(x => x.PlayerController.PlayerId == ejectedId);
 
-                    if (available.Count() != 1)
+                    if (available.Count() == 0)
                         return;
 
                     var rolePlayer = available.ToList()[0];
@@ -109,7 +115,7 @@ namespace CheepsAmongUsBaseMod
             {
                 try
                 {
-                    if (AllRoles.Where(x => x.AmRolePlayer).Count() != 1)
+                    if (!IsLocalRolePlayer)
                         return;
 
                     var rolePlayer = AllRoles.Where(x => x.PlayerController.IsLocalPlayer).ToList()[0];

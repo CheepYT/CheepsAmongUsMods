@@ -7,6 +7,7 @@ using CheepsAmongUsApi.API.RegionApi;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -23,9 +24,9 @@ namespace CheepsAmongUsBaseMod
     {
         public const string PluginGuid = "com.cheep_yt.amongusbasemod";
         public const string PluginName = "CheepsAmongUsMod";
-        public const string PluginVersion = "1.1.56";
+        public const string PluginVersion = "1.1.72";
 
-        public const string ServerName = "Cheep-YT - Public";
+        public const string ServerName = "Cheep-YT.com";
         public const string ServerIP = "207.180.234.175";
         public const ushort ServerPort = 22023;
 
@@ -47,8 +48,40 @@ namespace CheepsAmongUsBaseMod
             harmony.PatchAll(Assembly.GetExecutingAssembly());
             #endregion
 
-            #region ---------- Add custom region ----------
-            new Region(ServerName, ServerIP, new Server(ServerName, ServerIP, ServerPort)).InsertRegion(0);
+            #region ---------- Add custom regions ----------
+            new Region(ServerName, ServerIP, new Server(ServerName, ServerIP, ServerPort)).InsertRegion(0); // Add Cheep-YT.com
+
+            string serversPath = $"BepInEx/{PluginName}/servers/"; // Path to servers
+
+            Directory.CreateDirectory(serversPath); // Create directory, if it does not exist
+
+            if(!File.Exists(serversPath + "README.txt")) // Create a readme, if it does not exist
+            {
+                File.AppendAllText(serversPath + "README.txt",
+                    "This directory can be used to add additional servers.\r\n" +
+                    "\r\n" +
+                    "To add a server, create a .txt file and name it, how you want the server to be called.\r\n" +
+                    "Within this file simply enter the ip adress and port like this:\r\n" +
+                    "207.180.234.175:22023");
+            }
+
+            foreach(var file in Directory.GetFiles(serversPath).Where(x => !Path.GetFileName(x).Equals("README.txt") && x.EndsWith(".txt"))) // Get all files in directory
+            {
+                var server = File.ReadAllLines(file)[0].Split(':'); // Get the first line of the file
+
+                try
+                {
+                    string ip = server[0];  // Get the servers ip
+                    ushort port = ushort.Parse(server[1]);  // Get the servers port
+
+                    string name = Path.GetFileNameWithoutExtension(file); // Get the server name
+
+                    new Region(name, ip, new Server(name, ip, port)).AddRegion(); // Add region
+                }
+                catch(Exception e) {
+                    _logger.LogError("Failed to parse server " + file + ": " + e);
+                }
+            }
             #endregion
 
             #region ---------- Start Command Manager ----------

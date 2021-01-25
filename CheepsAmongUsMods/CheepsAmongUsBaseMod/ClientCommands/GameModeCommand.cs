@@ -83,7 +83,6 @@ namespace CheepsAmongUsBaseMod.ClientCommands
 
                                 PlayerHudManager.SetDefeatText(string.Empty);   // Reset Defeat Text
                                 PlayerHudManager.SetVictoryText(string.Empty);  // Reset Victory Text
-                                CheepsAmongUsBaseMod.GameSettingsAddition = string.Empty; // Reset Game Settings Addition
                             }
                         }
                     }
