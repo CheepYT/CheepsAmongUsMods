@@ -32,3 +32,11 @@ You can download modification releases here
 
 6. The Jester: https://cheep-yt.com/file.php?id=4887
 <img src="https://cheep-yt.com/files/4887/images/hd_00.png" alt="drawing" width="500"/>
+
+
+7. Infinite Kill Distance: https://cheep-yt.com/file.php?id=6872
+<img src="https://cheep-yt.com/files/6872/images/hd_01.png" alt="drawing" width="500"/>
+
+
+8. Impostor Invisibility: https://cheep-yt.com/file.php?id=2563
+<img src="https://cheep-yt.com/files/2563/images/hd_02.png" alt="drawing" width="500"/>
