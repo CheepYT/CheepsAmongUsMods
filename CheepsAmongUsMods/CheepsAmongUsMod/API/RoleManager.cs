@@ -14,7 +14,7 @@ using OutroRoutine = ABNGEPFHMHP.EHKHLOLEFFD;
 
 using PlayerControlClass = FFGALNAPKCD;
 
-namespace CheepsAmongUsBaseMod
+namespace CheepsAmongUsMod.API
 {
     public class RoleManager
     {
@@ -152,8 +152,11 @@ namespace CheepsAmongUsBaseMod
         {
             PlayerController = player;
 
-            RoleIntro = new RoleIntro();
-            RoleIntro.RoleName = roleName;
+            RoleIntro = new RoleIntro
+            {
+                RoleName = roleName
+            };
+
             RoleIntro.TeamPlayers.Add(player);
 
             RoleOutro = new RoleOutro();

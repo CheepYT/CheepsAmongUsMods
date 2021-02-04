@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FAA3FAC1-0534-405F-A37D-9989C2977170}</ProjectGuid>
+    <ProjectGuid>{0FAE5C90-45EF-4B95-B486-6F0E00BD9C4D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BattleRoyale</RootNamespace>
-    <AssemblyName>BattleRoyale</AssemblyName>
+    <RootNamespace>BattleRoyalGameMode</RootNamespace>
+    <AssemblyName>BattleRoyalGameMode</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,24 +31,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="0Harmony">
       <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Assembly-CSharp">
       <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\unhollowed\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="BepInEx.Core, Version=6.0.0.310, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="BepInEx.Core">
       <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\core\BepInEx.Core.dll</HintPath>
     </Reference>
-    <Reference Include="BepInEx.IL2CPP, Version=6.0.0.310, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="BepInEx.IL2CPP">
       <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\core\BepInEx.IL2CPP.dll</HintPath>
     </Reference>
-    <Reference Include="Il2Cppmscorlib, Version=3.7.1.6, Culture=neutral, PublicKeyToken=null" />
-    <Reference Include="Il2CppSystem.Core, Version=3.7.1.6, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Hazel">
+      <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\unhollowed\Hazel.dll</HintPath>
+    </Reference>
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\unhollowed\Il2Cppmscorlib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -57,14 +57,16 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnhollowerBaseLib, Version=0.4.11.0, Culture=neutral, PublicKeyToken=null" />
-    <Reference Include="UnityEngine.CoreModule, Version=3.7.1.6, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="UnhollowerBaseLib">
+      <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\core\UnhollowerBaseLib.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
       <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\unhollowed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BattleRoyale.cs" />
+    <Compile Include="BattleRoyaleGameMode.cs" />
     <Compile Include="Patching.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -73,9 +75,9 @@
       <Project>{7d8f8de7-d532-40bd-b39c-fd23e1f22fc9}</Project>
       <Name>CheepsAmongUsApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CheepsAmongUsBaseMod\CheepsAmongUsBaseMod.csproj">
-      <Project>{67009315-a954-4650-a4cc-71ac34c1f4ab}</Project>
-      <Name>CheepsAmongUsBaseMod</Name>
+    <ProjectReference Include="..\CheepsAmongUsMod\CheepsAmongUsMod.csproj">
+      <Project>{7bbc16fe-6db8-4fb8-8b77-949bb9c94bbb}</Project>
+      <Name>CheepsAmongUsMod</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

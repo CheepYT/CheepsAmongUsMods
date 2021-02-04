@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CheepsAmongUsBaseMod;
 using CheepsAmongUsApi.API;
 using HarmonyLib;
 using System.Reflection;
@@ -21,13 +20,13 @@ namespace InfiniteKillDistanceGameMode
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     [BepInDependency(CheepsAmongUsApi.CheepsAmongUs.PluginGuid)]    // Add the API as a dependency
-    [BepInDependency(CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.PluginGuid)] // Add the base mod as dependency
+    [BepInDependency(CheepsAmongUsMod.CheepsAmongUsMod.PluginGuid)] // Add the base mod as dependency
     [BepInProcess("Among Us.exe")]
     public class InfiniteKillDistance : BasePlugin
     {
         public const string PluginGuid = "com.cheep_yt.amongusinfinitekilldistance";
         public const string PluginName = "InfiniteKillDistanceAddOn";
-        public const string PluginVersion = "1.0.3";
+        public const string PluginVersion = "2.0.0";
 
         public const string InfiniteName = "Infinite";
 

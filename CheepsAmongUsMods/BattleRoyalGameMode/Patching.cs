@@ -1,12 +1,10 @@
-﻿using HarmonyLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HarmonyLib;
 using CheepsAmongUsApi.API;
-using UnityEngine;
-using UnhollowerBaseLib;
 
 using PlayerControl = FFGALNAPKCD;
 using GameData_PlayerInfo = EGLJNOMOGNP.DCJMABDDJCF;
@@ -14,13 +12,13 @@ using IntroClass = PENEIDJGGAF.CKACLKCOJFO;
 using KillButtonClass = MLPJGKEACMM;
 using GameStartManager = ANKMIOIMNFE;
 using ShipStatusClass = HLBNNHFCNAJ;
-using PlayerTab = MAOILGPNFND;
-using Palette = LOCPGOACAJF;
-using GameData = EGLJNOMOGNP;
 using DeadBody = DDPGLPLGFOI;
 using SystemConsole = IMPCIAEIBNB;
+using UnhollowerBaseLib;
+using UnityEngine;
+using CheepsAmongUsMod.API;
 
-namespace BattleRoyale
+namespace BattleRoyalGameMode
 {
     public class Patching
     {
@@ -30,7 +28,7 @@ namespace BattleRoyale
         {
             public static void Prefix(PlayerControl __instance)
             {
-                if (!BattleRoyale.IsThisGameModeSelected)
+                if (!BattleRoyale.GameMode.IsSelected)
                     return;
 
                 PlayerController instance = new PlayerController(__instance);
@@ -39,7 +37,7 @@ namespace BattleRoyale
 
             public static void Postfix(PlayerControl __instance)
             {
-                if (!BattleRoyale.IsThisGameModeSelected)
+                if (!BattleRoyale.GameMode.IsSelected)
                     return;
 
                 PlayerController instance = new PlayerController(__instance);
@@ -54,7 +52,7 @@ namespace BattleRoyale
         {
             public static void Prefix(ref Il2CppReferenceArray<GameData_PlayerInfo> JPGEIBIBJPJ)
             {
-                if (!BattleRoyale.IsThisGameModeSelected)
+                if (!BattleRoyale.GameMode.IsSelected)
                     return;
 
                 JPGEIBIBJPJ = new Il2CppReferenceArray<GameData_PlayerInfo>(
@@ -69,7 +67,7 @@ namespace BattleRoyale
         {
             public static void Prefix(IntroClass __instance)
             {
-                if (!BattleRoyale.IsThisGameModeSelected)
+                if (!BattleRoyale.GameMode.IsSelected)
                     return;
 
                 PlayerController local = PlayerController.LocalPlayer;
@@ -92,7 +90,7 @@ namespace BattleRoyale
         {
             public static void Prefix(GameStartManager __instance)
             {
-                if (!BattleRoyale.IsThisGameModeSelected)
+                if (!BattleRoyale.GameMode.IsSelected)
                     return;
 
                 __instance.MinPlayers = 2;
@@ -106,20 +104,34 @@ namespace BattleRoyale
         {
             public static PlayerController Target = null;
 
-            public static bool Prefix(KillButtonClass __instance)
+            public static bool Prefix()
             {
                 var local = PlayerController.LocalPlayer;
 
-                if (!BattleRoyale.IsThisGameModeActive || Target == null || (Functions.GetUnixTime() - BattleRoyale.LastKilled < GameOptions.KillCooldown && BattleRoyale.LastKilled != 0)
+                if (!BattleRoyale.GameMode.IsInGame || Target == null || (Functions.GetUnixTime() - BattleRoyale.GameMode.LastKilled < GameOptions.KillCooldown && BattleRoyale.GameMode.LastKilled != 0)
                     || local.PlayerData.IsDead)
                     return true;
 
                 var target = Target;
 
-                BattleRoyale.LastKilled = Functions.GetUnixTime();
+                BattleRoyale.GameMode.LastKilled = Functions.GetUnixTime();
 
                 #region ---------- Write Kill ----------
-                CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("KillPlayer", $"{target.NetId};{local.NetId}");
+                if (CheepsAmongUsMod.CheepsAmongUsMod.IsDecidingClient)
+                {
+                    var killer = PlayerController.LocalPlayer;
+
+                    if (!killer.PlayerData.IsDead && !target.PlayerData.IsDead && CheepsAmongUsMod.CheepsAmongUsMod.IsDecidingClient)
+                    {
+                        RpcManager.SendRpc(BattleRoyale.BattleRoyalRpc, new byte[] { (byte)BattleRoyale.CustomRpcCalls.MurderPlayer, killer.PlayerId, target.PlayerId });
+
+                        killer.PlayerControl.MurderPlayer(target.PlayerControl);
+                        target.PlayerData.IsDead = true;
+                    }
+                } else
+                {
+                    RpcManager.SendRpc(BattleRoyale.BattleRoyalRpc, new byte[] { (byte)BattleRoyale.CustomRpcCalls.KillPlayer, PlayerController.LocalPlayer.PlayerId, Target.PlayerId });
+                }
                 #endregion
 
                 return false;
@@ -134,7 +146,7 @@ namespace BattleRoyale
             public static bool CanEndGame = false;
             public static bool Prefix()
             {
-                if (!BattleRoyale.IsThisGameModeActive)
+                if (!BattleRoyale.GameMode.IsSelected)
                     return true;
 
                 return CanEndGame;
@@ -142,72 +154,13 @@ namespace BattleRoyale
         }
         #endregion
 
-        /*
-        #region ------------------------------ Patch Player Limit ------------------------------
-        [HarmonyPatch(typeof(GameData), nameof(GameData.GetAvailableId))]
-        public static class GameDataAvailableIdPatch
-        {
-            public static bool Prefix(ref GameData __instance, ref sbyte __result)
-            {
-                if (!BattleRoyale.RemovePlayerLimit || !BattleRoyale.IsThisGameModeSelected)
-                    return true;
-
-                for (int i = 0; i < 128; i++)
-                    if (checkId(__instance, i))
-                    {
-                        __result = (sbyte)i;
-                        return false;
-                    }
-                __result = -1;
-                return false;
-            }
-
-            static bool checkId(GameData __instance, int id)
-            {
-                foreach (var p in __instance.AllPlayers)
-                    if (p.JKOMCOJCAID == id)
-                        return false;
-                return true;
-            }
-        }
-
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckColor), typeof(byte))]
-        public static class PlayerControlCheckColorPatch
-        {
-            public static bool Prefix(PlayerControl __instance, byte POCIJABNOLE)
-            {
-                if (!BattleRoyale.RemovePlayerLimit || !BattleRoyale.IsThisGameModeSelected)
-                    return true;
-
-                __instance.RpcSetColor(POCIJABNOLE);
-                return false;
-            }
-        }
-
-        [HarmonyPatch(typeof(PlayerTab), nameof(PlayerTab.UpdateAvailableColors))]
-        public static class PlayerTabUpdateAvailableColorsPatch
-        {
-            public static bool Prefix(PlayerTab __instance)
-            {
-                if (!BattleRoyale.RemovePlayerLimit || !BattleRoyale.IsThisGameModeSelected)
-                    return true;
-
-                PlayerControl.SetPlayerMaterialColors(PlayerControl.LocalPlayer.NDGFFHMFGIG.EHAHBDFODKC, __instance.DemoImage);
-                for (int i = 0; i < Palette.OPKIKLENHFA.Length; i++)
-                    __instance.LGAIKONLBIG.Add(i);
-                return false;
-            }
-        }
-        #endregion
-        */
-
         #region -------------------- Cancel Do Click Report/Use --------------------
         [HarmonyPatch(typeof(DeadBody), nameof(DeadBody.OnClick))]
         public static class Patch_DeadBody_OnClick
         {
             public static bool Prefix()
             {
-                if (!BattleRoyale.IsThisGameModeSelected)
+                if (!BattleRoyale.GameMode.IsSelected)
                     return true;
 
                 return false;
@@ -219,7 +172,7 @@ namespace BattleRoyale
         {
             public static bool Prefix()
             {
-                if (!BattleRoyale.IsThisGameModeSelected)
+                if (!BattleRoyale.GameMode.IsSelected)
                     return true;
 
                 return false;

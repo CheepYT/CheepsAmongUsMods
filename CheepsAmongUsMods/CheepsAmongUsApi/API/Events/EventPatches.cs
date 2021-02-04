@@ -121,6 +121,24 @@ namespace CheepsAmongUsApi.API.Events
         }
         #endregion
 
+        #region -------------------- Patch Player Set Infected Event --------------------
+        [HarmonyPatch(typeof(PlayerControlClass), nameof(PlayerControlClass.RpcSetInfected))]
+        public static class Patch_PlayerControlClass_RpcSetInfected
+        {
+            public static void Postfix()
+            {
+                try
+                {
+                    SetInfectedEvent.CallEvent();
+                }
+                catch (Exception e)
+                {
+                    CheepsAmongUs._logger.LogError("Error invoking SetInfectedEvent: " + e);
+                }
+            }
+        }
+        #endregion
+
         #region -------------------- Patch Player Update Event --------------------
         [HarmonyPatch(typeof(PlayerControlClass), nameof(PlayerControlClass.FixedUpdate))]
         public static class Patch_PlayerControlClass_FixedUpdate

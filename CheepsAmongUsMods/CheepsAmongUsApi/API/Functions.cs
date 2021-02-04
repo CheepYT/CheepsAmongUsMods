@@ -12,6 +12,8 @@ using UnityEngine;
 using GameObject = FFGALNAPKCD;
 using GameOptionsObject = KMOGFLPJLLK;
 using RpcClass = FMLLKEACGIO;
+using ShipStatusClass = HLBNNHFCNAJ;
+using EndGameReason = AIMMJPEOPEC;
 
 namespace CheepsAmongUsApi.API
 {
@@ -44,6 +46,11 @@ namespace CheepsAmongUsApi.API
             return iCall_LoadImage.Invoke(tex.Pointer, il2cppArray.Pointer, markNonReadable);
         }
 
+        public static void RpcEndGame(EndGameReason reason)
+        {
+            ShipStatusClass.PLBGOMIEONF(reason, false);
+        }
+
         public static int Ping
         {
             get
@@ -74,6 +81,18 @@ namespace CheepsAmongUsApi.API
                 CheepsAmongUs._logger.LogInfo("An error occured, while attempting to load a texture from a file.");
                 throw e;
             }
+        }
+
+        public static Vector2 PositionFromDistance(float distance, float angle, Vector2 init)
+        {
+            var dist = distance;
+
+            var x = dist * Mathf.Cos(angle / (180 / (float)Math.PI));
+            var y = dist * Mathf.Sin(angle / (180 / (float)Math.PI));
+            var newPosition = init;
+            newPosition.x += x;
+            newPosition.y += y;
+            return newPosition;
         }
 
         public static Sprite LoadSpriteFromFile(string filepath)
@@ -159,6 +178,14 @@ namespace CheepsAmongUsApi.API
             get
             {
                 return Input.mousePosition;
+            }
+        }
+
+        public static Vector3 MouseWorldPosition
+        {
+            get
+            {
+                return Camera.main.ScreenToWorldPoint(MousePosition);
             }
         }
 

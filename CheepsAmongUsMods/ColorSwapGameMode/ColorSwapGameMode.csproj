@@ -43,6 +43,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\core\BepInEx.IL2CPP.dll</HintPath>
     </Reference>
+    <Reference Include="Hazel, Version=3.7.1.6, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Il2Cppmscorlib, Version=3.7.1.6, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,10 +53,12 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="UnhollowerBaseLib, Version=0.4.11.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="UnityEngine.CoreModule, Version=3.7.1.6, Culture=neutral, PublicKeyToken=null" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColorSwap.cs" />
+    <Compile Include="ColorSwapGameMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,9 +66,9 @@
       <Project>{7d8f8de7-d532-40bd-b39c-fd23e1f22fc9}</Project>
       <Name>CheepsAmongUsApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CheepsAmongUsBaseMod\CheepsAmongUsBaseMod.csproj">
-      <Project>{67009315-a954-4650-a4cc-71ac34c1f4ab}</Project>
-      <Name>CheepsAmongUsBaseMod</Name>
+    <ProjectReference Include="..\CheepsAmongUsMod\CheepsAmongUsMod.csproj">
+      <Project>{7bbc16fe-6db8-4fb8-8b77-949bb9c94bbb}</Project>
+      <Name>CheepsAmongUsMod</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

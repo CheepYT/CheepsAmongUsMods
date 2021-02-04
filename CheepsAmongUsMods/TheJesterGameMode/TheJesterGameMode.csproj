@@ -43,6 +43,7 @@
     <Reference Include="BepInEx.IL2CPP">
       <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\core\BepInEx.IL2CPP.dll</HintPath>
     </Reference>
+    <Reference Include="Hazel, Version=3.7.1.6, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="Il2Cppmscorlib">
       <HintPath>E:\Programme\Steam\steamapps\common\Among Us\BepInEx\unhollowed\Il2Cppmscorlib.dll</HintPath>
     </Reference>
@@ -65,15 +66,16 @@
     <Compile Include="Patching.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TheJester.cs" />
+    <Compile Include="TheJesterRoleGameMode.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CheepsAmongUsApi\CheepsAmongUsApi.csproj">
       <Project>{7d8f8de7-d532-40bd-b39c-fd23e1f22fc9}</Project>
       <Name>CheepsAmongUsApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CheepsAmongUsBaseMod\CheepsAmongUsBaseMod.csproj">
-      <Project>{67009315-a954-4650-a4cc-71ac34c1f4ab}</Project>
-      <Name>CheepsAmongUsBaseMod</Name>
+    <ProjectReference Include="..\CheepsAmongUsMod\CheepsAmongUsMod.csproj">
+      <Project>{7bbc16fe-6db8-4fb8-8b77-949bb9c94bbb}</Project>
+      <Name>CheepsAmongUsMod</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

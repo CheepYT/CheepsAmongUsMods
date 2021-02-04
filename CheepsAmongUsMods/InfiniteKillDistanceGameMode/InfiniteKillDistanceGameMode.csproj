@@ -69,9 +69,9 @@
       <Project>{7d8f8de7-d532-40bd-b39c-fd23e1f22fc9}</Project>
       <Name>CheepsAmongUsApi</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CheepsAmongUsBaseMod\CheepsAmongUsBaseMod.csproj">
-      <Project>{67009315-a954-4650-a4cc-71ac34c1f4ab}</Project>
-      <Name>CheepsAmongUsBaseMod</Name>
+    <ProjectReference Include="..\CheepsAmongUsMod\CheepsAmongUsMod.csproj">
+      <Project>{7bbc16fe-6db8-4fb8-8b77-949bb9c94bbb}</Project>
+      <Name>CheepsAmongUsMod</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

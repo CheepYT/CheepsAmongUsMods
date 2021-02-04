@@ -6,14 +6,18 @@ using CheepsAmongUsApi.API;
 using UnityEngine;
 using System.Linq;
 using System.Threading.Tasks;
+using CheepsAmongUsMod.API;
 
 using PlayerControl = FFGALNAPKCD;
 using MeetingHud = OOCJALPKPEP;
 using DeathReasonEnum = DBLJKMDLJIF;
 using ShipStatusClass = HLBNNHFCNAJ;
 using GameEndReasonEnum = AIMMJPEOPEC;
+using Telemetry = KOHGPBDBBJI;
+using ExileController = CNNGMDOPELD;
+using GameData_PlayerInfo = EGLJNOMOGNP.DCJMABDDJCF;
 
-namespace JesterGameMode
+namespace TheJesterGameMode
 {
     public class Patching
     {
@@ -23,64 +27,91 @@ namespace JesterGameMode
         {
             public static void Postfix(MeetingHud __instance)
             {
-                if (!TheJester.IsThisGameModeSelected)
+                if (TheJester.GameMode.NumJesters == 0)
                     return;
 
-                if (!TheJester.JesterRolePlayer.AmRolePlayer)
+                if (TheJester.GameMode.AllRolePlayers.Where(x => x.AmRolePlayer).Count() == 0)
                     return;
 
                 foreach (var obj in __instance.HBDFFAHBIGI)
-                    if (obj.NameText.Text == TheJester.JesterRolePlayer.PlayerController.PlayerData.PlayerName)
-                        obj.NameText.Color = new Color(0.74901960784f, 0, 1f);
+                    foreach(var jester in TheJester.GameMode.AllRolePlayers)
+                        if (obj.NameText.Text == jester.PlayerController.PlayerData.PlayerName)
+                            obj.NameText.Color = new Color(0.74901960784f, 0, 1f);
             }
         }
         #endregion
 
-        #region -------------------- Cancel End Game --------------------
-        [HarmonyPatch(typeof(ShipStatusClass), nameof(ShipStatusClass.PLBGOMIEONF))]
-        public static class Patch_ShipStatusClass_RpcEndGame
+        #region -------------------- Jester Being Exiled --------------------
+        [HarmonyPatch(typeof(ExileController), nameof(ExileController.Begin))]
+        public static class Patch_ExileController_Begin
         {
-            internal static bool CanEndGame = false;
-
-            public static bool Prefix(GameEndReasonEnum JMMJJGKBFJC, bool EMAKAHIFLDE)
+            public static void Prefix([HarmonyArgument(0)] GameData_PlayerInfo data)
             {
-                if(!TheJester.IsThisGameModeSelected)
-                    return true;
+                if (TheJester.GameMode.NumJesters == 0 || data == null)
+                    return;
 
-                if (!CanEndGame)
+                if (TheJester.GameMode.AllRolePlayers.Where(x => x.PlayerController.PlayerId == new PlayerData(data).PlayerId).Count() == 0)
+                    return;
+
+                TheJester.GameMode.JestersWon = true;
+            }
+        }
+        #endregion
+
+        #region -------------------- Jester Exiled --------------------
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Exiled))]
+        public static class Patch_PlayerControl_Exiled
+        {
+            public static void Prefix(PlayerControl __instance)
+            {
+                if (TheJester.GameMode.NumJesters == 0)
+                    return;
+
+                if (TheJester.GameMode.AllRolePlayers.Where(x => x.PlayerController.Equals(new PlayerController(__instance))).Count() == 0)
+                    return;
+
+                TheJester.GameMode.JesterWon();
+                RpcManager.SendRpc(TheJester.JesterRpc, (byte) TheJester.CustomRpc.JesterExiled );
+            }
+        }
+        #endregion
+
+        #region -------------------- Jester End Game -------------------- 
+        [HarmonyPatch(typeof(Telemetry), nameof(Telemetry.EndGame))]
+        public static class Patch_Telemetry_EndGame
+        {
+            public static void Prefix([HarmonyArgument(0)] ref GameEndReasonEnum reason)
+            {
+                if (TheJester.GameMode.NumJesters == 0)
+                    return;
+
+                if (TheJester.GameMode.JestersWon)
                 {
-                    Task.Run(async () =>
+                    reason = GameEndReasonEnum.ImpostorByKill;
+
+                    foreach (var player in PlayerController.AllPlayerControls.Where(x => x.PlayerData.IsImpostor))
+                        player.PlayerData.IsImpostor = false;
+
+                    foreach (var jester in TheJester.GameMode.AllRolePlayers)
                     {
-                        await Task.Delay(2000);
+                        jester.RoleOutro.UseRoleOutro = true;
+                        jester.PlayerController.PlayerData.IsImpostor = true;
+                    }
 
-                        if (!CanEndGame)
-                        {
-                            ShipStatusClass.PLBGOMIEONF(JMMJJGKBFJC, false);
-                        }
-
-                    });
-                    return false;
+                    if(TheJester.GameMode.AllRolePlayers.Where(x => x.AmRolePlayer).Count() == 0)
+                    {
+                        var DefeatRole = new RolePlayer(PlayerController.LocalPlayer, "Other");
+                        DefeatRole.RoleOutro.WinText = "Defeat";
+                        DefeatRole.RoleOutro.WinTextColor = new Color(175 / 255f, 43 / 255f, 237 / 255f);
+                        DefeatRole.RoleOutro.BackgroundColor = new Color(127 / 255f, 0 / 255f, 186 / 255f);
+                        DefeatRole.RoleOutro.UseRoleOutro = true;
+                    }
+                } else
+                {
+                    if(reason == GameEndReasonEnum.HumansByVote || reason == GameEndReasonEnum.HumansByTask)
+                        foreach (var jester in TheJester.GameMode.AllRolePlayers)
+                            jester.PlayerController.PlayerData.IsImpostor = true;
                 }
-
-
-                return true;
-            }
-        }
-        #endregion
-
-        #region -------------------- Jester Exile Patch --------------------
-        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Die))]
-        public static class PatchJesterExile
-        {
-            public static void Postfix(PlayerControl __instance, DeathReasonEnum OECOPGMHMKC)
-            {
-                if (!TheJester.IsThisGameModeSelected)
-                    return;
-
-                if (!new PlayerController(__instance).Equals(TheJester.JesterRolePlayer.PlayerController) || OECOPGMHMKC != DeathReasonEnum.Exile)
-                    return;
-
-                CheepsAmongUsBaseMod.CheepsAmongUsBaseMod.SendModCommand("JesterWon", $"{true}");
             }
         }
         #endregion

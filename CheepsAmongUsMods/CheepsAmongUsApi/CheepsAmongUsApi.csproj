@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\CustomButton.cs" />
+    <Compile Include="API\CustomGameOptions\CustomGameOptionsManager.cs" />
     <Compile Include="API\CustomStopwatch.cs" />
     <Compile Include="API\CustomText.cs" />
     <Compile Include="API\Enumerations\ColorType.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="API\Events\JoinedLobbyEvent.cs" />
     <Compile Include="API\Events\LobbyBehaviourStartedEvent.cs" />
     <Compile Include="API\Events\PlayerUpdateEvent.cs" />
+    <Compile Include="API\Events\SetInfectedEvent.cs" />
     <Compile Include="API\Events\SyncedSettingsEvent.cs" />
     <Compile Include="API\Functions.cs" />
     <Compile Include="API\GameOptions.cs" />
