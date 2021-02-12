@@ -11,7 +11,7 @@ using UnityEngine;
 using IntroRoutine = PENEIDJGGAF.CKACLKCOJFO;
 using EjectRoutine = CNNGMDOPELD.MBGAIMHMPGN;
 using OutroRoutine = ABNGEPFHMHP.EHKHLOLEFFD;
-
+using MeetingHud = OOCJALPKPEP;
 using PlayerControlClass = FFGALNAPKCD;
 
 namespace CheepsAmongUsMod.API
@@ -20,6 +20,9 @@ namespace CheepsAmongUsMod.API
     {
         public static List<RolePlayer> AllRoles = new List<RolePlayer>();
 
+        /// <summary>
+        /// Returns true, if the local player has any role
+        /// </summary>
         public static bool IsLocalRolePlayer
         {
             get
@@ -28,6 +31,11 @@ namespace CheepsAmongUsMod.API
             }
         }
 
+        /// <summary>
+        /// Checks if a given player has a role
+        /// </summary>
+        /// <param name="player">The player to check</param>
+        /// <returns>True, if the player has any role</returns>
         public static bool HasPlayerAnyRole(PlayerController player)
         {
             return AllRoles.Where(x => x.PlayerController.Equals(player)).Count() > 0;
@@ -39,6 +47,30 @@ namespace CheepsAmongUsMod.API
             {
                 AllRoles.Clear();
             };
+
+            GameStartedEvent.Listener += () =>
+            {
+                Task.Run(async () =>
+                {
+                    await Task.Delay(2500);
+
+                    foreach(var role in AllRoles)
+                        if (role.NameColorVisible)
+                            role.PlayerController.PlayerControl.nameText.Color = role.NameColor;
+                });
+            };
+        }
+
+        [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
+        public static class PatchMeetingHudJester
+        {
+            public static void Postfix(MeetingHud __instance)
+            {
+                foreach (var obj in __instance.HBDFFAHBIGI)
+                    foreach (var role in AllRoles)
+                        if (role.NameColorVisible && obj.NameText.Text == role.PlayerController.PlayerData.PlayerName)
+                            role.PlayerController.PlayerControl.nameText.Color = role.NameColor;
+            }
         }
 
         [HarmonyPatch(typeof(IntroRoutine), nameof(IntroRoutine.MoveNext))]
@@ -71,6 +103,8 @@ namespace CheepsAmongUsMod.API
                     field.BackgroundBar.material.color = roleIntro.BackgroundColor;
 
                     field.ImpostorText.Text = roleIntro.RoleDescription;
+
+                    field.ImpostorText.gameObject.SetActive(true);
 
                     field.Title.Text = roleIntro.RoleName;
                     field.Title.Color = roleIntro.RoleNameColor;
@@ -138,16 +172,52 @@ namespace CheepsAmongUsMod.API
 
     public class RolePlayer
     {
+        /// <summary>
+        /// PlayerController that has the specific role
+        /// </summary>
         public PlayerController PlayerController { get; }
 
+        /// <summary>
+        /// RoleIntro instance
+        /// </summary>
         public RoleIntro RoleIntro { get; }
 
+        /// <summary>
+        /// RoleEjected instance
+        /// </summary>
         public RoleEjected RoleEjected { get; }
 
+        /// <summary>
+        /// Role outro instance
+        /// </summary>
         public RoleOutro RoleOutro { get; }
 
+        /// <summary>
+        /// True, if the local player has the specific role
+        /// </summary>
+        [Obsolete("Moved to IsRolePlayer")]
         public bool AmRolePlayer { get { return PlayerController.IsLocalPlayer; } }
 
+        /// <summary>
+        /// True, if the local player has the specific role
+        /// </summary>
+        public bool IsRolePlayer { get { return PlayerController.IsLocalPlayer; } }
+
+        /// <summary>
+        /// The color of the players name (Game and in Meetings)
+        /// </summary>
+        public Color NameColor { get; set; }
+
+        /// <summary>
+        /// If this is true, the players name color will assume the "NameColor" value
+        /// </summary>
+        public bool NameColorVisible { get; set; }
+
+        /// <summary>
+        /// Creates and registeres a new instance of a RolePlayer
+        /// </summary>
+        /// <param name="player">The PlayerController that has the role</param>
+        /// <param name="roleName">The name of the role. If RoleIntro and RoleEjected are not overridden, this name will be used</param>
         public RolePlayer(PlayerController player, string roleName)
         {
             PlayerController = player;

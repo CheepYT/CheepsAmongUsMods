@@ -16,16 +16,28 @@ namespace CheepsAmongUsMod.API
         public const float TextY = 2f;
         public const float TextScale = 1.5f;
 
-        public static bool IsNotifying = false;
-
-        public static bool CancelNotification = false;
-
         internal static void StartNotifier()
         {
             LobbyBehaviourStartedEvent.Listener += () =>
             {
                 Text = null;
             };
+        }
+
+        private static Task NotificationTask = null;
+
+        public static void CancelNotification()
+        {
+            try
+            {
+                if (NotificationTask != null)
+                {
+                    NotificationTask.Dispose();
+                    Text.SetActive(false);
+                    NotificationTask = null;
+                }
+            }
+            catch { }
         }
 
         public static void ShowNotification(string text, long time)
@@ -36,14 +48,11 @@ namespace CheepsAmongUsMod.API
                 Text.TextRenderer.scale = TextScale;
             }
 
+            CancelNotification();
+
             Text.Text = text;
 
-            if (IsNotifying)
-                return;
-
-            IsNotifying = true;
-
-            Task.Run(async () =>
+            NotificationTask = Task.Run(async () =>
             {
                 Text.SetActive(true);
                 Text.Color = new UnityEngine.Color(1, 1, 1, 0);
@@ -60,17 +69,7 @@ namespace CheepsAmongUsMod.API
                     Text.Color = new UnityEngine.Color(1, 1, 1, a);
 
                     await Task.Delay(1);
-
-                    if (CancelNotification)
-                    {
-                        CancelNotification = false;
-
-                        Text.SetActive(false);
-                        return;
-                    }
                 }
-
-                IsNotifying = false;
             });
 
         }

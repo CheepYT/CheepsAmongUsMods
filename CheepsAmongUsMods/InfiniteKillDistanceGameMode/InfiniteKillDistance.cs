@@ -25,10 +25,8 @@ namespace InfiniteKillDistanceGameMode
     public class InfiniteKillDistance : BasePlugin
     {
         public const string PluginGuid = "com.cheep_yt.amongusinfinitekilldistance";
-        public const string PluginName = "InfiniteKillDistanceAddOn";
-        public const string PluginVersion = "2.0.0";
-
-        public const string InfiniteName = "Infinite";
+        public const string PluginName = "Infinite Kill Distance";
+        public const string PluginVersion = "2.0.1";
 
         public const float InfiniteDistance = float.MaxValue;
 

@@ -21,8 +21,34 @@ namespace TheJesterGameMode
 {
     public class Patching
     {
+        #region -------------------- Force Jester Patch --------------------
+        [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSendChat))]
+        public static class Patch_PlayerControl_RpcSendChat
+        {
+            internal static bool ForceJester = false;
+
+            public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] string msg)
+            {
+                if (TheJester.GameMode.NumJesters == 0)
+                    return true;
+
+                if (msg == "forcejester" && CheepsAmongUsMod.CheepsAmongUsMod.DecidingClient.Equals(new PlayerController(__instance)) && !GameModeManager.Selected.IsInGame)
+                {
+                    Notifier.ShowNotification("You will become the Jester in the next game.", 3000);
+                    PlayerHudManager.HudManager.Chat.TextArea.SetText(string.Empty);
+
+                    ForceJester = true;
+
+                    return false;
+                }
+
+                return true;
+            }
+        }
+        #endregion
+
         #region -------------------- Jester Meeting Patch --------------------
-        [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
+        /*[HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
         public static class PatchMeetingHudJester
         {
             public static void Postfix(MeetingHud __instance)
@@ -38,7 +64,7 @@ namespace TheJesterGameMode
                         if (obj.NameText.Text == jester.PlayerController.PlayerData.PlayerName)
                             obj.NameText.Color = new Color(0.74901960784f, 0, 1f);
             }
-        }
+        }*/
         #endregion
 
         #region -------------------- Jester Being Exiled --------------------

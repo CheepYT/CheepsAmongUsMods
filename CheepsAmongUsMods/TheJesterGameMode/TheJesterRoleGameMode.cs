@@ -81,9 +81,14 @@ namespace TheJesterGameMode
         {
             RolePlayer JesterRolePlayer = new RolePlayer(jester, "Jester");
             JesterRolePlayer.RoleEjected.UseRoleEjected = true;
+            JesterRolePlayer.NameColor = new Color(0.74901960784f, 0, 1f);
 
-            jester.ClearTasks();
-            jester.PlayerTaskObjects = new Il2CppSystem.Collections.Generic.List<PILBGHDHJLH>();
+            Task.Run(async () =>
+            {
+                await Task.Delay(3000);
+                jester.ClearTasks();
+                jester.PlayerTaskObjects = new Il2CppSystem.Collections.Generic.List<PILBGHDHJLH>();
+            });
 
             var intro = JesterRolePlayer.RoleIntro;
             intro.UseRoleIntro = true;
@@ -102,7 +107,7 @@ namespace TheJesterGameMode
 
             if(AllRolePlayers.Where(x => x.AmRolePlayer).Count() > 0)
                 foreach(var role in AllRolePlayers)
-                    role.PlayerController.PlayerControl.nameText.Color = new Color(0.74901960784f, 0, 1f);
+                    role.NameColorVisible = true;
         }
 
         private void TheJesterRoleGameMode_ValueChanged(object sender, CustomNumberOption.CustomNumberOptionEventArgs e)
@@ -150,7 +155,7 @@ namespace TheJesterGameMode
         {
             base.OnSetInfected();
 
-            if (NumJesters == 0 || !CheepsAmongUsMod.CheepsAmongUsMod.IsDecidingClient)
+            if (NumJesters == 0)
                 return;
 
             var available = PlayerController.AllPlayerControls.Where(x => !x.PlayerData.IsImpostor && !RoleManager.HasPlayerAnyRole(x)).ToList();
@@ -166,6 +171,14 @@ namespace TheJesterGameMode
                         continue;
                     }
 
+                    if (Patching.Patch_PlayerControl_RpcSendChat.ForceJester && !PlayerController.LocalPlayer.PlayerData.IsImpostor)
+                    {
+                        Patching.Patch_PlayerControl_RpcSendChat.ForceJester = false;
+
+                        if (available.Where(x => x.PlayerId == PlayerController.LocalPlayer.PlayerId).Count() >= 0 && !RoleManager.HasPlayerAnyRole(player))
+                            player = PlayerController.LocalPlayer;
+                    }
+
                     available.Remove(player);
 
                     RpcManager.SendRpc(TheJester.JesterRpc, new byte[] { (byte)TheJester.CustomRpc.SetJester, player.PlayerId });
@@ -177,6 +190,7 @@ namespace TheJesterGameMode
         {
             base.ResetValues();
             JestersWon = false;
+            Patching.Patch_PlayerControl_RpcSendChat.ForceJester = false;
         }
     }
 }

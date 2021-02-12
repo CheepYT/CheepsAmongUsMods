@@ -21,6 +21,8 @@ namespace CheepsAmongUsApi.API.CustomGameOptions
         internal static int StringNameId = 1000;
         internal static int IndexId = 0;
 
+        private const float YBounds = 30f;
+
         #region ------------------------------ Patch GameOptionsMenu ------------------------------
         [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Start))]
         public static class Patch_GameOptionsMenu_Start
@@ -33,7 +35,7 @@ namespace CheepsAmongUsApi.API.CustomGameOptions
                     {
                         Scroller componentInParent = __instance.GetComponentInParent<Scroller>();
 
-                        componentInParent.YBounds = new FloatRange(componentInParent.YBounds.min, 20f);
+                        componentInParent.YBounds = new FloatRange(componentInParent.YBounds.min, YBounds);
                         float num = -8.5f;
                         float num2 = -0.5f;
 
@@ -60,7 +62,7 @@ namespace CheepsAmongUsApi.API.CustomGameOptions
                     {
                         Scroller componentInParent = __instance.GetComponentInParent<Scroller>();
 
-                        componentInParent.YBounds = new FloatRange(componentInParent.YBounds.min, 20f);
+                        componentInParent.YBounds = new FloatRange(componentInParent.YBounds.min, YBounds);
                         float num = -8.5f;
                         float num2 = -0.5f;
 

@@ -2,7 +2,7 @@ This file contains byte values that are already in use for Rpc Calls
 and used GameMode IDs.
 
 ------ Used RPC IDs -----
-60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70
+59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73
 
 ----- Used GameMode IDs -----
-10, 11, 12, 13, 14, 15, 16, 17
+10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21

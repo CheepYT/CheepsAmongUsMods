@@ -235,7 +235,7 @@ namespace QuantumTunnelingGameMode
                     else
                     {
                         // ----- Display can press key -----
-                        toDisplay += $"Use [11c5edff]{ UseKey }[] to activate.";
+                        toDisplay += $"Use [11c5edff]The Button[] to activate.";
                         EnableDisableCollision.SpriteRenderer.color = new Color(1, 1, 1);
                         CollisionTextRenderer.gameObject.SetActive(false);
                     }

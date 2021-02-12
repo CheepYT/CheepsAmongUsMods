@@ -1,4 +1,5 @@
-﻿using CheepsAmongUsApi.API.Events;
+﻿using CheepsAmongUsApi.API;
+using CheepsAmongUsApi.API.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,11 @@ namespace CheepsAmongUsMod.API
         public RoleGameMode()
         {
             AllGameModes.Add(this);
+
+            PlayerHudManager.AppendedVersionText =
+                $"\n[7a31f7ff]{CheepsAmongUsMod.PluginName} [3170f7ff]v{CheepsAmongUsMod.PluginVersion} []by [2200ffff]CheepYT\n" +
+                $"[]Installed GameModes: {Functions.ColorOrange}{GameMode.AvailableGameModes.Count - 1}[]\n" +
+                $"[]Installed Roles: {Functions.ColorOrange}{AllGameModes.Count}[]";
         }
 
         public bool IsInGame
@@ -70,6 +76,20 @@ namespace CheepsAmongUsMod.API
 
     public class RoleGameModeManager
     {
+        public static Random Random = new Random();
+
+        /// <summary>
+        /// Returns a player controller that does not have a role
+        /// </summary>
+        /// <param name="canBeImpostor"></param>
+        /// <returns></returns>
+        public static PlayerController GetFreePlayerController(bool canBeImpostor = false)
+        {
+            var available = PlayerController.AllPlayerControls.Where(x => (!x.PlayerData.IsImpostor || canBeImpostor) && !RoleManager.HasPlayerAnyRole(x)).ToList();
+
+            return available[Random.Next(available.Count)];
+        }
+
         internal static void Start()
         {
 

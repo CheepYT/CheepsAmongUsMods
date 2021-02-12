@@ -28,11 +28,13 @@ namespace CheepsAmongUsMod
     {
         public const string PluginGuid = "com.cheep_yt.amongusmod";
         public const string PluginName = "CheepsAmongUsMod";
-        public const string PluginVersion = "2.0.0";
+        public const string PluginVersion = "2.0.1";
 
         public const string ServerName = "Cheep-YT.com";
         public const string ServerIP = "207.180.234.175";
         public const ushort ServerPort = 22023;
+
+        public const bool CreatorsRelease = false;
 
         public static string[] TimeStrings = { "5", "10", "20", "30", "60", "70", "80", "90", "120", "180", "240", "300" };
 
@@ -42,7 +44,7 @@ namespace CheepsAmongUsMod
 
         public static Vector4[] ButtonTextLocations =
         {
-            // new Vector4(Button_X, Button_Y, Text_X, Text_Y),{
+            // new Vector4(Button_X, Button_Y, Text_X, Text_Y),
                 new Vector4(-4.5f, -2.25f, -4.62f, -1.9f),
                 new Vector4(-3.3f, -2.25f, -3.42f, -1.9f),
                 new Vector4(-2.1f, -2.25f, -2.22f, -1.9f),
@@ -233,6 +235,9 @@ namespace CheepsAmongUsMod
             RoleManager.Start();        // Start RoleManager
             RoleGameModeManager.Start();    // Start RoleGameModeManager
             Notifier.StartNotifier();   // Start Notifier
+
+            if (Config.Bind("Debug", "enable_debug", true, "Enables the debug menu").Value)
+                DebugMenu.Start();
         }
 
         #region --------------------------------- Custom Settings ---------------------------------

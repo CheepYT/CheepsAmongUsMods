@@ -30,6 +30,8 @@ namespace CheepsAmongUsMod.Commands
                 $"-------------------- {AvailableCommandsColor}Available Commands []--------------------"
                 ); //Send chat to player
 
+            //PlayerHudManager.AddChat(PlayerController.LocalPlayer, "If you would like to change the GameMode or GameMode options, use the laptop in the lobby.");
+
             base.Executed(args);
         }
     }

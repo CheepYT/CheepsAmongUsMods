@@ -46,6 +46,9 @@ namespace CheepsAmongUsMod.API
         {
             public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] string msg)
             {
+                if (!msg.StartsWith("/"))
+                    return true;
+
                 var args = msg.Split(' ');
 
                 var maybeCmd = Command.RegisteredCommands.Where(x => x.Cmd.ToLower() == args[0].ToLower());

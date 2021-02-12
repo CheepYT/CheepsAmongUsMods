@@ -13,6 +13,8 @@ namespace CheepsAmongUsMod.API
 {
     public class GameMode
     {
+        public const string AdvStr = ">> " + Functions.ColorGreen + "Cheep-YT.com[] <<";
+
         public static List<GameMode> AvailableGameModes = new List<GameMode>();
 
         public static List<string> ShortGameModeNames
@@ -38,7 +40,7 @@ namespace CheepsAmongUsMod.API
         }
 
         public byte GameModeId { get; }
-        
+
         public string GameModeName { get; }
 
         public string ModNotice { get; set; }
@@ -77,7 +79,8 @@ namespace CheepsAmongUsMod.API
 
             PlayerHudManager.AppendedVersionText =
                 $"\n[7a31f7ff]{CheepsAmongUsMod.PluginName} [3170f7ff]v{CheepsAmongUsMod.PluginVersion} []by [2200ffff]CheepYT\n" +
-                $"[]Installed GameModes: {Functions.ColorOrange}{AvailableGameModes.Count - 1}[]";
+                $"[]Installed GameModes: {Functions.ColorOrange}{AvailableGameModes.Count - 1}[]\n" +
+                $"[]Installed Roles: {Functions.ColorOrange}{RoleGameMode.AllGameModes.Count}[]";
 
             CheepsAmongUsMod.GameModeNumberOption.ValueStrings = ShortGameModeNames;
             CheepsAmongUsMod.HeaderNumberOption.ValueStrings[0] = $"{AvailableGameModes.Count - 1} Modes";
@@ -105,7 +108,13 @@ namespace CheepsAmongUsMod.API
             if (PlayerHudManager.HudManager == null)
                 return;
 
-            string topText = $"{Functions.ColorPurple}{CheepsAmongUsMod.PluginName} {Functions.ColorBlue}v{CheepsAmongUsMod.PluginVersion} []by {Functions.ColorBlue}CheepYT[]\n" +
+            string modTag = "";
+
+            if (!CheepsAmongUsMod.CreatorsRelease)
+                modTag = $"{Functions.ColorPurple}{CheepsAmongUsMod.PluginName} {Functions.ColorBlue}v{CheepsAmongUsMod.PluginVersion} []by {Functions.ColorBlue}CheepYT[]\n";
+
+            string topText =
+                modTag +
             $"GameMode: {Functions.ColorPurple}{ GameModeName }[]" +
             GameModeSettingsAddition + "[]" +
             CheepsAmongUsMod.SettingsAddition + "[]";
@@ -177,7 +186,7 @@ namespace CheepsAmongUsMod.API
             #region ---------- Ping Text ----------
             PlayerHudManager.AppendedPingText =
                 $"\nMode: {Functions.ColorPurple}{ Selected.GameModeName }[]\n" + Selected.ModNotice +
-                $">> {Functions.ColorGreen}Cheep-YT.com[] <<";
+                $"{GameMode.AdvStr}";
 
             PlayerHudManager.IsPingTextCentered = true;
             #endregion
@@ -270,7 +279,7 @@ namespace CheepsAmongUsMod.API
 
             PlayerHudManager.AppendedPingText =
                 $"\nMode: {Functions.ColorPurple}{ Selected.GameModeName }[]\n" + Selected.ModNotice +
-                $">> {Functions.ColorGreen}Cheep-YT.com[] <<";
+                $"{GameMode.AdvStr}";
 
             RpcManager.SendRpc((byte)CustomRpcCalls.ChangeGameMode, mode.GameModeId);
         }
@@ -293,7 +302,7 @@ namespace CheepsAmongUsMod.API
 
                     PlayerHudManager.AppendedPingText =
                         $"\nMode: {Functions.ColorPurple}Unknown ({ gamemode })[]\n" +
-                        $">> {Functions.ColorGreen}Cheep-YT.com[] <<";
+                        $"{GameMode.AdvStr}";
                 } else
                 {
                     Selected = select.FirstOrDefault();
@@ -301,7 +310,7 @@ namespace CheepsAmongUsMod.API
 
                     PlayerHudManager.AppendedPingText =
                         $"\nMode: {Functions.ColorPurple}{ Selected.GameModeName }[]\n" + Selected.ModNotice +
-                        $">> {Functions.ColorGreen}Cheep-YT.com[] <<";
+                        $"{GameMode.AdvStr}";
                 }
             }
         }

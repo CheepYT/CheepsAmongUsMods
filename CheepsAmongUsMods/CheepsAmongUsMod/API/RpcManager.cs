@@ -16,16 +16,31 @@ namespace CheepsAmongUsMod.API
     {
         public static event EventHandler<RpcEventArgs> RpcReceived;
 
+        /// <summary>
+        /// Sends an Rpc Message with a single byte value
+        /// </summary>
+        /// <param name="cmd">Used to identify Rpc call</param>
+        /// <param name="val">Byte Value</param>
         public static void SendRpc(byte cmd, byte val)
         {
             SendRpc(cmd, new byte[] { val });
         }
 
+        /// <summary>
+        /// Starts an rpc message
+        /// </summary>
+        /// <param name="cmd">Used to identify Rpc call</param>
+        /// <returns>The message writer instance</returns>
         public static MessageWriter StartRpc(byte cmd)
         {
             return AmongUsClient.Instance.StartRpc(PlayerController.LocalPlayer.NetId, cmd);
         }
 
+        /// <summary>
+        /// Sends an Rpc Message
+        /// </summary>
+        /// <param name="cmd">Used to identify Rpc call</param>
+        /// <param name="vals">Array of byte values</param>
         public static void SendRpc(byte cmd, byte[] vals)
         {
             var writer = AmongUsClient.Instance.StartRpc(PlayerController.LocalPlayer.NetId, cmd);
@@ -46,14 +61,19 @@ namespace CheepsAmongUsMod.API
         }
         #endregion
     }
+
     public class RpcEventArgs : EventArgs
     {
         public byte Command { get; set; }
         public MessageReader MessageReader { get; set; }
     }
 
+    /// <summary>
+    /// Mainly used internally
+    /// </summary>
     public enum CustomRpcCalls : byte
     {
+        CheepsAmongUsModData = 59,
         ChangeGameMode = 60
     }
 }
