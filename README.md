@@ -42,3 +42,7 @@ You can download modification releases here
 
 8. Impostor Invisibility: https://cheep-yt.com/file.php?id=2563
 <img src="https://cheep-yt.com/files/2563/images/hd_02.png" alt="drawing" width="500"/>
+
+
+9. Cleaner: https://cheep-yt.com/file.php?id=5963
+<img src="https://cheep-yt.com/files/5963/images/hd_01.png" alt="drawing" width="500"/>
